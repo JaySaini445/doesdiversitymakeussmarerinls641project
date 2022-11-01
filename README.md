@@ -1,4 +1,4 @@
-# doesdiversitymakeussmarerinls641project
+# doesdiversitymakeussmarterinls641project
 Displaying racial disparities in North Carolina counties public high school expenditure and diversity 
 Academic Achievement, Funding, and Diversity in North Carolina Public Schools
 Ian Elliott, Neha Patel, Hanan Ali, Jay Saini
