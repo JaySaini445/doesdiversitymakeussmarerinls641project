@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- For tool tips -->
+<script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>
+<script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js"></script>
+
+<head>
+  <meta charset="UTF-8">
+  <title>US Map</title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="https://unpkg.com/topojson@3"></script>
+  <style>
+    .county :hover {
+      fill: gold;
+    }
+
+    /* This styles the tool tip. I copied .tippy-box and .tippy-box table from our Hands On 3 code. */
+    .tippy-box {
+      background-color: black;
+      color: white;
+      font-family: sans-serif;
+      padding: 5px 8px;
+      border-radius: 5px;
+      opacity: 0.9;
+      font-weight: bold;
+    }
+
+    .tippy-box table {
+      font-size: 8pt;
+      color: white;
+    }
+
+  </style>
+</head>
+<body>
+<svg id="nc_map" style="width: 600; height: 400; border: 1px solid black;"></svg>
+
+<script>
+  // Loading the map data and the state statistics, then render when done.
+  Promise.all([
+    d3.csv("nc_county_data.csv"),
+    d3.json("nc-counties.json")
+  ])
+          .then(render);
+
+  // Renders a map within the DOM element specified by svg_id.
+  function render(data) {
+    // CSV data with stats per county. We process the data to make it easier to look up by county name.
+    let nc_county_pop_data = data[0].reduce((indexed_data, d) => {
+      // Convert the numerical values from strings to numbers.
+      d.pop2022 = +d.pop2022;
+      d.GrowthRate = +d.GrowthRate;
+      d.popDensity = +d.popDensity;
+
+      // Store the county data as the value associated with the county's name
+      indexed_data[d.CTYNAME] = d;
+
+      // While we iterate, find the max population to use in our color scale.
+      if (indexed_data.maxpop < d.pop2022) {
+        indexed_data.maxpop = d.pop2022;
+      }
+      return indexed_data;
+    }, {maxpop: 0});
+
+    // TopoJson data, which we convert to GeoJson format for use with D3.
+    let nc_county_map_data = topojson.feature(data[1], data[1].objects.cb_2015_north_carolina_county_20m);
+
+    // Define a projection with rotation to make NC "horizontal" (by default, the Albers projection is centered
+    // in the middle of the US, which means NC will "tilt" a bit due to its location on the eastern coast).
+    let projection = d3.geoAlbers()
+            .rotate([79, 0])
+            .fitSize([600,400], nc_county_map_data);
+
+    // Define the path generator using the projection.
+    let path = d3.geoPath().projection(projection);
+
+    // Select the SVG element for the map.
+    let svg = d3.select("#nc_map").append('g');
+
+    // Define a color scale for the map.
+    let colormap = d3.scaleLinear().domain([0,nc_county_pop_data.maxpop]).range(["silver", "red"]);
+
+    // Draw the county map.
+    svg.append("g")
+            .attr("class", "county")
+            .selectAll("path")
+            .data(nc_county_map_data.features, d=>d.properties.NAME)
+            .enter().append("path")
+            .attr("fill", d=>{
+              let county = nc_county_pop_data[d.properties.NAME + " County"];
+              let pop = county.pop2022;
+              return colormap(pop);
+            })
+            .attr("stroke", "black")
+            .attr("d", path)
+            // All tiptool and transition code is taken from Hands On 3 code and tweaked
+            .attr("data-tippy-content", d => {
+              let html = "<table>";
+              html += "<tr><td>"+d.properties.NAME + " County" +"</td></tr>"
+              return html;
+            })
+            .call(selection => tippy(selection.nodes(), {allowHTML: true}));
+  }
+
+</script>
+</body>
+</html>
