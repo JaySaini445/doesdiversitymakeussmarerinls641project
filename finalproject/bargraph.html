@@ -3,18 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <body>
-<script>
-    let vis = new BarGraph();
-</script>
+<svg id="svg_for_vis" style="width: 1000px; height: 400px;"></svg>
 </body>
 
 <script>
     class BarGraph {
         constructor(svg_id) {
-            // these 2 below lines are switchable -- if I comment out one and keep in the other, it should work either way
-            //this.url = "https://ils.unc.edu/~gotz/courses/data/states.csv";
             this.url = "myfuturenc.csv";
             this.svg_id = svg_id;
 
@@ -23,59 +20,49 @@
         loadAndPrepare() {
             d3.csv(this.url, d => {
                 return {
-                    american_indian_pub_students: +d.american_indian_pub_students,
-                    asian_pacific_islander_pub_students: +d.asian_pacific_islander_pub_students,
-                    black_pub_students: +d.black_pub_students,
-                    hispanic_pub_students: +d.hispanic_pub_students,
-                    multiracial_pub_students: +d.multiracial_pub_students,
-                    white_pub_students: +d.white_pub_students,
-                    K13_Students_Traditional_Schools: +d.K13_Students_Traditional_Schools
+                    american_indian_pub_students: d.american_indian_pub_students,
+                    asian_pacific_islander_pub_students: d.asian_pacific_islander_pub_students,
+                    black_pub_students: d.black_pub_students,
+                    hispanic_pub_students: d.hispanic_pub_students,
+                    multiracial_pub_students: d.multiracial_pub_students,
+                    white_pub_students: d.white_pub_students,
+                    K13_Students_Traditional_Schools: +d.K13_Students_Traditional_Schools,
+                    Geographic_Type: d.Geographic_Type,
+                    Name: d.Name
                 }
             }).then(data => {
-                console.log(d.american_indian_pub_students)
-            })}
-        render() {
-            let data = this.url;
+                console.log(data[1].Name)
+            })
+            this.render()
+        }
 
-            // Define an x and y scale.
+        render() {
+            let data = [
+                {american_indian_pub_students:1,asian_pacific_islander_pub_students:4,black_pub_students:24, hispanic_pub_students: 19, multiracial_pub_students: 6, white_pub_students: 46}];
+
+            let race_categories = ["American Indian", "Asian/Pacific Islander", "Black", "Hispanic", "Multiracial", "White"]
+
             let x = d3.scaleLinear()
-                .domain([0, d3.max(d.american_indian_pub_students)])
+                .domain([0, d3.max(data)])
                 .range([0, 500]);
 
-            let y = d3.scaleLinear()
-                .domain([0, d3.max(data)])
-                .range([300, 0]);
-
-            // Select the chart svg which will be the container for the new bar chart
+            // Select the chart div which will be the container for the new bar chart
             let chart = d3.select(".chart");
 
-            // Define some layout parameters.
-            let text_spacing = 4;
-            let bar_spacing = 2;
-            let bar_width = x(1) - x(0) - bar_spacing;
-
-            // Perform the data join and add the new rectangles
-            chart.selectAll("rect")
-                .data(data).join("rect")
-                .style("fill", "steelblue")
-                .attr("x", (d,i) => x(i))
-                .attr("y", d => y(d))
-                .attr("height", d => 300-y(d))
-                .attr("width", bar_width);
-
-            // Perform the data join again, this time to create the text labels to show the data values.
-            chart.selectAll("text")
-                .data(data).join("text")
-                .style("fill", "white")
-                .style("font-family", "sans-serif")
-                .style("font-size", "16pt")
-                .style("text-anchor", "middle")
-                .style("dominant-baseline", "hanging")
-                .attr("x", (d,i) => x(i) + 0.5*bar_width)
-                .attr("y", d => y(d)+text_spacing)
+            chart.selectAll("div")
+                .data(data).join("div")
+                .style("background", "steelblue")
+                .style("color", "white")
+                .style("text-align", "right")
+                .style("font", "10px san-serif")
+                .style("padding", "3px")
+                .style("margin", "1px")
+                .style("width", d => x(d)+"px")
                 .text(d => d);
         }
     }
+
+    let vis = new BarGraph("svg_for_vis");
 
 </script>
 
