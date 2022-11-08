@@ -1,13 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
+<!-- For tool tips -->
+<script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>
+<script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js"></script>
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
     <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        .tippy-box {
+            background-color: black;
+            color: white;
+            font-family: sans-serif;
+            padding: 5px 8px;
+            border-radius: 5px;
+            opacity: 0.9;
+            font-weight: bold;
+        }
+
+        .tippy-box table {
+            font-size: 8pt;
+            color: white;
+        }
+
+    </style>
 </head>
 <body>
 <p>Select a county:
-    <select onchange="vis.render(this.options[this.selectedIndex].value);">
+    <select onchange="vis.loadAndPrepare(this.options[this.selectedIndex].value);">
         <option value="1">Alamance</option>
         <option value="2">Alexander</option>
         <option value="3">Alleghany</option>
@@ -16,7 +36,6 @@
         <option value="6">Avery</option>
     </select>
 </p>
-<svg id="svg_for_vis" style="width: 1000px; height: 1px;"></svg>
 <div class="chart">
 </div>
 <script>
@@ -27,7 +46,7 @@
 
             this.loadAndPrepare();
         }
-        loadAndPrepare() {
+        loadAndPrepare(county) {
             d3.csv(this.url, d => {
                 return {
                     american_indian_pub_students: d.american_indian_pub_students,
@@ -41,29 +60,39 @@
                     Name: d.Name
                 }
             }).then(data => {
-                console.log(data[50].Name)
+                if (county == undefined) {
+                    county = 1;
+                }
+                else {
+                    county = +county;
+                }
+
+                console.log(data[county].Name)
+
+                let race_data = [
+                    {american_indian: parseFloat(data[county].american_indian_pub_students)},
+                    {asian_pacific_islander: parseFloat(data[county].asian_pacific_islander_pub_students)},
+                    {black: parseFloat(data[county].black_pub_students)},
+                    {hispanic: parseFloat(data[county].hispanic_pub_students)},
+                    {multiracial: parseFloat(data[county].multiracial_pub_students)},
+                    {white: parseFloat(data[county].white_pub_students)}
+                ]
+
+                this.render(county, race_data)
             })
-            this.render()
         }
 
-        render(county) {
-
-            if (county == undefined) {
-                county = 1;
-            }
-            else {
-                county = +county;
-            }
+        render(county, race_data) {
 
             console.log(county)
 
             let data = [
-                {group:'American Indian', value:90},
-                {group: 'Asian/Pacific Islander', value:20},
-                {group: 'Black', value:20},
-                {group: 'Hispanic', value:25},
-                {group: 'Multiracial', value:5},
-                {group: 'White', value:20}
+                {group:'American Indian', value: race_data[0].american_indian},
+                {group: 'Asian/Pacific Islander', value: race_data[1].asian_pacific_islander},
+                {group: 'Black', value: race_data[2].black},
+                {group: 'Hispanic', value: race_data[3].hispanic},
+                {group: 'Multiracial', value: race_data[4].multiracial},
+                {group: 'White', value: race_data[5].white}
             ];
 
             let max_value = d3.max(data, d => d.value);
@@ -84,13 +113,19 @@
                 .style("padding", "10px")
                 .style("margin", "1px")
                 .style("width", d => x(d.value)+"px")
-                .text((d,i) => data[i].group);
+                .text((d,i) => data[i].group)
+                .attr("data-tippy-content", d => {
+                    let html = "<table>";
+                    html += "<tr><td>"+ d.value + "%" + "</td></tr>"
+                    return html;
+                })
+                .call(selection => tippy(selection.nodes(), {allowHTML: true}));
 
             console.log(data[0].value)
         }
     }
 
-    let vis = new BarGraph("svg_for_vis");
+    let vis = new BarGraph("chart");
 
 </script>
 </body>
