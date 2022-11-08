@@ -3,6 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+<svg id="svg_for_vis" style="width: 1000px; height: 400px;"></svg>
+</body>
+
+<script>
+    class BarGraph {
+        constructor(svg_id) {
+            this.url = "myfuturenc.csv";
+            this.svg_id = svg_id;
+
+            this.loadAndPrepare();
+        }
+        loadAndPrepare() {
+            d3.csv(this.url, d => {
+                return {
+                    american_indian_pub_students: d.american_indian_pub_students,
+                    asian_pacific_islander_pub_students: d.asian_pacific_islander_pub_students,
+                    black_pub_students: d.black_pub_students,
+                    hispanic_pub_students: d.hispanic_pub_students,
+                    multiracial_pub_students: d.multiracial_pub_students,
+                    white_pub_students: d.white_pub_students,
+                    K13_Students_Traditional_Schools: +d.K13_Students_Traditional_Schools,
+                    Geographic_Type: d.Geographic_Type,
+                    Name: d.Name
+                }
+            }).then(data => {
+                console.log(data[1].Name)
+            })
+            this.render()
+        }
+
+        render() {
+            // let data = [
+              //  {american_indian_pub_students:1,asian_pacific_islander_pub_students:4,black_pub_students:24, hispanic_pub_students: 19, multiracial_pub_students: 6, white_pub_students: 46}];
+
+            let race_categories = ["American Indian", "Asian/Pacific Islander", "Black", "Hispanic", "Multiracial", "White"]
+
+            let x = d3.scaleLinear()
+                .domain([0, d3.max(data)])
+                .range([0, 500]);
+
+            // Select the chart div which will be the container for the new bar chart
+            let chart = d3.select(".chart");
+
+            chart.selectAll("div")
+                .data(data).join("div")
+                .style("background", "steelblue")
+                .style("color", "white")
+                .style("text-align", "right")
+                .style("font", "10px san-serif")
+                .style("padding", "3px")
+                .style("margin", "1px")
+                .style("width", d => x(d)+"px")
+                .text(d => d);
+        }
+    }
+
+    let vis = new BarGraph("svg_for_vis");
+
+</script>
+
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
 </head>
 <body>
 <script>
@@ -79,4 +148,5 @@
 
 </script>
 
+>>>>>>> origin/main
 </html>
