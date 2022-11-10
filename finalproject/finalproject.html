@@ -12,7 +12,7 @@
   <script src="https://unpkg.com/topojson@3"></script>
   <style>
     .county :hover {
-      fill: gold;
+      fill: lightskyblue;
     }
 
     /* This styles the tool tip. I copied .tippy-box and .tippy-box table from our Hands On 3 code. */
@@ -79,7 +79,7 @@
     let svg = d3.select("#nc_map").append('g');
 
     // Define a color scale for the map.
-    let colormap = d3.scaleLinear().domain([0,nc_county_pop_data.maxpop]).range(["silver", "red"]);
+    let colormap = d3.scaleLinear().domain([0,nc_county_pop_data.maxpop]).range(["silver", "silver"]);
 
     // Draw the county map.
     svg.append("g")
@@ -96,8 +96,11 @@
             .attr("d", path)
             // All tiptool and transition code is taken from Hands On 3 code and tweaked
             .attr("data-tippy-content", d => {
+              let county = nc_county_pop_data[d.properties.NAME + " County"];
+              let pop = county.pop2022;
               let html = "<table>";
-              html += "<tr><td>"+d.properties.NAME + " County" +"</td></tr>"
+              html += "<tr><td>" + "Population: " + pop + " </td>" +
+                      "</td> " + d.properties.NAME + " County" + "</td></tr>"
               return html;
             })
             .call(selection => tippy(selection.nodes(), {allowHTML: true}));

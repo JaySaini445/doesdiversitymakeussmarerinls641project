@@ -1,14 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
+<!-- For tool tips -->
+<script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>
+<script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js"></script>
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
     <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        .tippy-box {
+            background-color: black;
+            color: white;
+            font-family: sans-serif;
+            padding: 5px 8px;
+            border-radius: 5px;
+            opacity: 0.9;
+            font-weight: bold;
+        }
+
+        .tippy-box table {
+            font-size: 8pt;
+            color: white;
+        }
+    </style>
 </head>
 <body>
-<svg id="svg_for_vis" style="width: 1000px; height: 400px;"></svg>
-</body>
-
+<p>Select a county:
+    <select onchange="vis.loadAndPrepare(this.options[this.selectedIndex].value);">
+        <option value="1">Alamance</option>
+        <option value="2">Alexander</option>
+        <option value="3">Alleghany</option>
+        <option value="4">Anson</option>
+        <option value="5">Ashe</option>
+        <option value="6">Avery</option>
+    </select>
+</p>
+<div class="chart">
+</div>
 <script>
     class BarGraph {
         constructor(svg_id) {
@@ -17,7 +45,7 @@
 
             this.loadAndPrepare();
         }
-        loadAndPrepare() {
+        loadAndPrepare(county) {
             d3.csv(this.url, d => {
                 return {
                     american_indian_pub_students: d.american_indian_pub_students,
@@ -31,20 +59,46 @@
                     Name: d.Name
                 }
             }).then(data => {
-                console.log(data[1].Name)
+                if (county == undefined) {
+                    county = 1;
+                }
+                else {
+                    county = +county;
+                }
+
+                console.log(data[county].Name)
+
+                let race_data = [
+                    {american_indian: parseFloat(data[county].american_indian_pub_students)},
+                    {asian_pacific_islander: parseFloat(data[county].asian_pacific_islander_pub_students)},
+                    {black: parseFloat(data[county].black_pub_students)},
+                    {hispanic: parseFloat(data[county].hispanic_pub_students)},
+                    {multiracial: parseFloat(data[county].multiracial_pub_students)},
+                    {white: parseFloat(data[county].white_pub_students)}
+                ]
+
+                this.render(county, race_data)
             })
-            this.render()
         }
 
-        render() {
-            // let data = [
-              //  {american_indian_pub_students:1,asian_pacific_islander_pub_students:4,black_pub_students:24, hispanic_pub_students: 19, multiracial_pub_students: 6, white_pub_students: 46}];
+        render(county, race_data) {
 
-            let race_categories = ["American Indian", "Asian/Pacific Islander", "Black", "Hispanic", "Multiracial", "White"]
+            console.log(county)
+
+            let data = [
+                {group:'American Indian', value: race_data[0].american_indian},
+                {group: 'Asian/Pacific Islander', value: race_data[1].asian_pacific_islander},
+                {group: 'Black', value: race_data[2].black},
+                {group: 'Hispanic', value: race_data[3].hispanic},
+                {group: 'Multiracial', value: race_data[4].multiracial},
+                {group: 'White', value: race_data[5].white}
+            ];
+
+            let max_value = d3.max(data, d => d.value);
 
             let x = d3.scaleLinear()
-                .domain([0, d3.max(data)])
-                .range([0, 500]);
+                .domain([0, max_value])
+                .range([0, 1500]);
 
             // Select the chart div which will be the container for the new bar chart
             let chart = d3.select(".chart");
@@ -55,98 +109,22 @@
                 .style("color", "white")
                 .style("text-align", "right")
                 .style("font", "10px san-serif")
-                .style("padding", "3px")
+                .style("padding", "10px")
                 .style("margin", "1px")
-                .style("width", d => x(d)+"px")
-                .text(d => d);
+                .style("width", d => x(d.value)+"px")
+                .text((d,i) => data[i].group)
+                .attr("data-tippy-content", d => {
+                    let html = "<table>";
+                    html += "<tr><td>"+ d.value + "%" + "</td></tr>"
+                    return html;
+                })
+                .call(selection => tippy(selection.nodes(), {allowHTML: true}));
+
+            console.log(data[0].value)
         }
     }
 
-    let vis = new BarGraph("svg_for_vis");
+    let vis = new BarGraph("chart");
 
-</script>
-
-=======
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<script>
-    let vis = new BarGraph();
 </script>
 </body>
-
-<script>
-    class BarGraph {
-        constructor(svg_id) {
-            // these 2 below lines are switchable -- if I comment out one and keep in the other, it should work either way
-            //this.url = "https://ils.unc.edu/~gotz/courses/data/states.csv";
-            this.url = "myfuturenc.csv";
-            this.svg_id = svg_id;
-
-            this.loadAndPrepare();
-        }
-        loadAndPrepare() {
-            d3.csv(this.url, d => {
-                return {
-                    american_indian_pub_students: +d.american_indian_pub_students,
-                    asian_pacific_islander_pub_students: +d.asian_pacific_islander_pub_students,
-                    black_pub_students: +d.black_pub_students,
-                    hispanic_pub_students: +d.hispanic_pub_students,
-                    multiracial_pub_students: +d.multiracial_pub_students,
-                    white_pub_students: +d.white_pub_students,
-                    K13_Students_Traditional_Schools: +d.K13_Students_Traditional_Schools
-                }
-            }).then(data => {
-                console.log(d.american_indian_pub_students)
-            })}
-        render() {
-            let data = this.url;
-
-            // Define an x and y scale.
-            let x = d3.scaleLinear()
-                .domain([0, d3.max(d.american_indian_pub_students)])
-                .range([0, 500]);
-
-            let y = d3.scaleLinear()
-                .domain([0, d3.max(data)])
-                .range([300, 0]);
-
-            // Select the chart svg which will be the container for the new bar chart
-            let chart = d3.select(".chart");
-
-            // Define some layout parameters.
-            let text_spacing = 4;
-            let bar_spacing = 2;
-            let bar_width = x(1) - x(0) - bar_spacing;
-
-            // Perform the data join and add the new rectangles
-            chart.selectAll("rect")
-                .data(data).join("rect")
-                .style("fill", "steelblue")
-                .attr("x", (d,i) => x(i))
-                .attr("y", d => y(d))
-                .attr("height", d => 300-y(d))
-                .attr("width", bar_width);
-
-            // Perform the data join again, this time to create the text labels to show the data values.
-            chart.selectAll("text")
-                .data(data).join("text")
-                .style("fill", "white")
-                .style("font-family", "sans-serif")
-                .style("font-size", "16pt")
-                .style("text-anchor", "middle")
-                .style("dominant-baseline", "hanging")
-                .attr("x", (d,i) => x(i) + 0.5*bar_width)
-                .attr("y", d => y(d)+text_spacing)
-                .text(d => d);
-        }
-    }
-
-</script>
-
->>>>>>> origin/main
-</html>
