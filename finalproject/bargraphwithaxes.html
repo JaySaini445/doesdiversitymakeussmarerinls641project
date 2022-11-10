@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- For tool tips -->
+<script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>
+<script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js"></script>
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <style>
+    /* Style information for axis labels */
+    .axis-label {
+      font-family: sans-serif;
+      font-size: 12px;
+    }
+
+    /* Style information for axis lines and tick marks */
+    .axis path,
+    .axis line {
+      fill: none;
+      stroke: black;
+      shape-rendering: crispEdges;
+    }
+
+    .axis text {
+      font-family: sans-serif;
+      font-size: 11px;
+    }
+
+    .bar {
+      fill: red;
+    }
+
+  </style>
+</head>
+<body>
+<p>Select a county:
+  <select onchange="vis.loadAndPrepare(this.options[this.selectedIndex].value);">
+    <option value="1">Alamance</option>
+    <option value="2">Alexander</option>
+    <option value="3">Alleghany</option>
+    <option value="4">Anson</option>
+    <option value="5">Ashe</option>
+    <option value="6">Avery</option>
+  </select>
+</p>
+<svg id="chart" style="width: 1000px; height: 500px;"></svg>
+<script>
+  class BarGraph {
+    constructor(container_id) {
+      this.url = "myfuturenc.csv";
+      this.container_id = container_id;
+
+      this.height = 500;
+      this.width = 500;
+      this.margin = 40;
+
+      this.x = d3.scaleLinear()
+              .domain([0,100])
+              .range([this.margin,this.width-this.margin]);
+
+      this.y = d3.scaleLinear()
+              .domain([90,70])
+              .range([this.height-this.margin,this.margin]);
+
+      // Create the SVG canvas that will be used to render the visualization.
+      this.svg = d3.select("#"+container_id)
+              .append("svg")
+              .attr("width", this.width)
+              .attr("height", this.height);
+
+      this.svg.append("g")
+              .attr("class", "axis")
+              .attr("transform", "translate(0,"+(this.margin)+")")
+              .call(d3.axisTop(this.x));
+
+      this.svg.append("text")
+              .attr("class", "axis-label")
+              .attr("y", 12)
+              .attr("x", 0 + (500/2))
+              .style("text-anchor", "middle")
+              .text("Yessum")
+
+      this.svg.append("g")
+              .attr("class", "axis")
+              .attr("transform", "translate("+this.margin+",0)")
+              .call(d3.axisLeft(this.y))
+
+      this.svg.append("text")
+              .attr("transform", "rotate(90)")
+              .attr("class", "axis-label")
+              .attr("y", -5)
+              .attr("x",0 + (500 / 2))
+              .style("text-anchor", "middle")
+              .text("Yug");
+
+      this.loadAndPrepare();
+    }
+
+    loadAndPrepare(county) {
+      d3.csv(this.url, d => {
+        return {
+          american_indian_pub_students: d.american_indian_pub_students,
+          asian_pacific_islander_pub_students: d.asian_pacific_islander_pub_students,
+          black_pub_students: d.black_pub_students,
+          hispanic_pub_students: d.hispanic_pub_students,
+          multiracial_pub_students: d.multiracial_pub_students,
+          white_pub_students: d.white_pub_students,
+          K13_Students_Traditional_Schools: +d.K13_Students_Traditional_Schools,
+          Geographic_Type: d.Geographic_Type,
+          Name: d.Name
+        }
+      }).then(data => {
+        if (county == undefined) {
+          county = 1;
+        }
+        else {
+          county = +county;
+        }
+
+        console.log(data[county].Name)
+
+        let race_data = [
+          {american_indian: parseFloat(data[county].american_indian_pub_students)},
+          {asian_pacific_islander: parseFloat(data[county].asian_pacific_islander_pub_students)},
+          {black: parseFloat(data[county].black_pub_students)},
+          {hispanic: parseFloat(data[county].hispanic_pub_students)},
+          {multiracial: parseFloat(data[county].multiracial_pub_students)},
+          {white: parseFloat(data[county].white_pub_students)}
+        ]
+
+        this.render(county, race_data)
+      })
+    }
+
+    render(county, race_data) {
+
+      console.log(county)
+
+      let data = [
+        {group:'American Indian', value: race_data[0].american_indian},
+        {group: 'Asian/Pacific Islander', value: race_data[1].asian_pacific_islander},
+        {group: 'Black', value: race_data[2].black},
+        {group: 'Hispanic', value: race_data[3].hispanic},
+        {group: 'Multiracial', value: race_data[4].multiracial},
+        {group: 'White', value: race_data[5].white}
+      ];
+
+      let max_value = d3.max(data, d => d.value);
+
+      let bar_height = 40
+
+      let x = d3.scaleLinear()
+              .domain([0, max_value])
+              .range([0, 1500]);
+
+      let y = d3.scaleLinear()
+              .domain([bar_height,bar_height+30])
+              .range([460,40])
+
+      this.svg.selectAll(".bar")
+              .data(data, d => d.value)
+              .enter().append("rect")
+              .attr("class", "bar")
+              .attr("x", 40)
+              .attr("y", (d,i) => y(i))
+              .style("width", d => x(d.value)+"px")
+              .attr("height", 50)
+              .attr("data-tippy-content", d => {
+                let html = "<table>";
+                html += "<tr><td>"+ d.value + "%" + "</td></tr>"
+                return html;
+              })
+              .call(selection => tippy(selection.nodes(), {allowHTML: true}));;
+    }
+  }
+
+  let vis = new BarGraph("chart");
+
+</script>
+</body>
