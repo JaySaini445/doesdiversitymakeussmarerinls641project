@@ -38,11 +38,14 @@
 
 <script>
   // Loading the map data and the state statistics, then render when done.
+
   Promise.all([
     d3.csv("nc_county_data.csv"),
-    d3.json("nc-counties.json")
+    d3.json("nc-counties.json"),
+    d3.csv("myfuturenc.csv")
   ])
           .then(render);
+
 
   // Renders a map within the DOM element specified by svg_id.
   function render(data) {
@@ -65,6 +68,8 @@
 
     // TopoJson data, which we convert to GeoJson format for use with D3.
     let nc_county_map_data = topojson.feature(data[1], data[1].objects.cb_2015_north_carolina_county_20m);
+
+
 
     // Define a projection with rotation to make NC "horizontal" (by default, the Albers projection is centered
     // in the middle of the US, which means NC will "tilt" a bit due to its location on the eastern coast).
@@ -98,9 +103,11 @@
             .attr("data-tippy-content", d => {
               let county = nc_county_pop_data[d.properties.NAME + " County"];
               let pop = county.pop2022;
+              let income = data[2].Median_Household_Income;
               let html = "<table>";
-              html += "<tr><td>" + "Population: " + pop + " </td>" +
-                      "</td> " + d.properties.NAME + " County" + "</td></tr>"
+              html += "<tr><td>" + "Population: " + pop + "<br>" +
+                      "Median Income: " + income + "</td>" +
+                      "</td>" + d.properties.NAME + " County" + "</td></tr>"
               return html;
             })
             .call(selection => tippy(selection.nodes(), {allowHTML: true}));
