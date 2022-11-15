@@ -28,6 +28,10 @@ class BarGraph {
 
             console.log(data[county].Name)
 
+            let county_data = [{county_name: data[county].Name}]
+
+            console.log(county_data)
+
             let race_data = [
                 {american_indian: parseFloat(data[county].american_indian_pub_students)},
                 {asian_pacific_islander: parseFloat(data[county].asian_pacific_islander_pub_students)},
@@ -82,4 +86,22 @@ class BarGraph {
 
         console.log(data[0].value)
     }
+
+    /* filterCounty(county) {
+        // Get matching data.
+        let matching_data = this.data.filter(d => d.species === species);
+
+        let filtered_data = data.filter(d => {
+            if (this.show_mode == "us") {
+                return true;
+            }
+
+        // Select matching circles, turn them red, and bring them to the front.
+        d3.selectAll(".dot").data(matching_data, d=>d.id).join(
+            enter => enter,
+            update => update.attr("fill", "red").raise(),
+            exit => exit.attr("fill", "black")
+        )
+    }
+     */
 }
