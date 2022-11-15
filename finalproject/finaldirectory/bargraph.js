@@ -41,19 +41,19 @@ class BarGraph {
                 {white: data[county].white_pub_students}
             ]
 
+            let county_name = [{county: data[county].Name}]
+
+            console.log(county_name[0].county)
+
             let count_per_race_group = [
                 {american_indian: (data[county].american_indian_pub_students/100) * (data[county].K13_Students_Traditional_Schools)}
             ]
 
-            console.log(data[county].american_indian_pub_students/100)
-            console.log(data[county].K13_Students_Traditional_Schools)
-            console.log(count_per_race_group)
-
-            this.render(county, race_data)
+            this.render(county, race_data, county_name)
         })
     }
 
-    render(county, race_data) {
+    render(county, race_data, county_name) {
 
         console.log(county)
 
@@ -93,11 +93,14 @@ class BarGraph {
             .call(selection => tippy(selection.nodes(), {allowHTML: true}));
 
         console.log(data[0].value)
+
+        // this.filterCounty(county_name)
     }
 
-    /* filterCounty(county) {
+    /* filterCounty(county_name) {
         // Get matching data.
-        let matching_data = this.data.filter(d => d.species === species);
+        console.log(county_name)
+        let matching_data = county_name.filter(county_name[0].county === data[0][0].CTYNAME);
 
         let filtered_data = data.filter(d => {
             if (this.show_mode == "us") {

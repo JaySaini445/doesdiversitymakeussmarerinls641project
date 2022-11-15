@@ -24,6 +24,8 @@ class NC_Map {
             return indexed_data;
         }, {maxpop: 0});
 
+        console.log(data[0][0].CTYNAME)
+
         // TopoJson data, which we convert to GeoJson format for use with D3.
         let nc_county_map_data = topojson.feature(data[1], data[1].objects.cb_2015_north_carolina_county_20m);
 
