@@ -93,26 +93,15 @@ class BarGraph {
             .call(selection => tippy(selection.nodes(), {allowHTML: true}));
 
         console.log(data[0].value)
-
-        // this.filterCounty(county_name)
     }
 
-    /* filterCounty(county_name) {
+    filterCounty(data) {
         // Get matching data.
+        // let matching_data = county_name.filter(county_name[0].county === data[0][0].CTYNAME);
+
+        console.log(data)
+
         console.log(county_name)
-        let matching_data = county_name.filter(county_name[0].county === data[0][0].CTYNAME);
-
-        let filtered_data = data.filter(d => {
-            if (this.show_mode == "us") {
-                return true;
-            }
-
-        // Select matching circles, turn them red, and bring them to the front.
-        d3.selectAll(".dot").data(matching_data, d=>d.id).join(
-            enter => enter,
-            update => update.attr("fill", "red").raise(),
-            exit => exit.attr("fill", "black")
-        )
+        console.log(this.data[0][0].CTYNAME)
     }
-     */
 }
