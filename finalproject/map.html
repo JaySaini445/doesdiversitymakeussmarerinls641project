@@ -8,7 +8,6 @@
 <head>
   <meta charset="UTF-8">
   <title>US Map</title>
-
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <script src="https://unpkg.com/topojson@3"></script>
   <style>
@@ -33,26 +32,9 @@
     }
 
   </style>
-
-  <script src="bargraph.js"></script>
-
 </head>
 <body>
 <svg id="nc_map" style="width: 600; height: 400; border: 1px solid black;"></svg>
-
-<p>Select a county:
-  <select onchange="vis.loadAndPrepare(this.options[this.selectedIndex].value);">
-    <option value="1">Alamance</option>
-    <option value="2">Alexander</option>
-    <option value="3">Alleghany</option>
-    <option value="4">Anson</option>
-    <option value="5">Ashe</option>
-    <option value="6">Avery</option>
-  </select>
-</p>
-
-<div class="chart">
-</div>
 
 <script>
   // Loading the map data and the state statistics, then render when done.
@@ -132,8 +114,6 @@
             })
             .call(selection => tippy(selection.nodes(), {allowHTML: true}));
   }
-
-  let vis = new BarGraph("chart");
 
 </script>
 </body>
