@@ -8,13 +8,13 @@ class BarGraph {
     loadAndPrepare(county) {
         d3.csv(this.url, d => {
             return {
-                american_indian_pub_students: d.american_indian_pub_students,
-                asian_pacific_islander_pub_students: d.asian_pacific_islander_pub_students,
-                black_pub_students: d.black_pub_students,
-                hispanic_pub_students: d.hispanic_pub_students,
-                multiracial_pub_students: d.multiracial_pub_students,
-                white_pub_students: d.white_pub_students,
-                K13_Students_Traditional_Schools: +d.K13_Students_Traditional_Schools,
+                american_indian_pub_students: parseFloat(d.american_indian_pub_students),
+                asian_pacific_islander_pub_students: parseFloat(d.asian_pacific_islander_pub_students),
+                black_pub_students: parseFloat(d.black_pub_students),
+                hispanic_pub_students: parseFloat(d.hispanic_pub_students),
+                multiracial_pub_students: parseFloat(d.multiracial_pub_students),
+                white_pub_students: parseFloat(d.white_pub_students),
+                K13_Students_Traditional_Schools: parseInt(d.K13_Students_Traditional_Schools.replace(/,/g, '')),
                 Geographic_Type: d.Geographic_Type,
                 Name: d.Name
             }
@@ -33,13 +33,21 @@ class BarGraph {
             console.log(county_data)
 
             let race_data = [
-                {american_indian: parseFloat(data[county].american_indian_pub_students)},
-                {asian_pacific_islander: parseFloat(data[county].asian_pacific_islander_pub_students)},
-                {black: parseFloat(data[county].black_pub_students)},
-                {hispanic: parseFloat(data[county].hispanic_pub_students)},
-                {multiracial: parseFloat(data[county].multiracial_pub_students)},
-                {white: parseFloat(data[county].white_pub_students)}
+                {american_indian: data[county].american_indian_pub_students},
+                {asian_pacific_islander: data[county].asian_pacific_islander_pub_students},
+                {black: data[county].black_pub_students},
+                {hispanic: data[county].hispanic_pub_students},
+                {multiracial: data[county].multiracial_pub_students},
+                {white: data[county].white_pub_students}
             ]
+
+            let count_per_race_group = [
+                {american_indian: (data[county].american_indian_pub_students/100) * (data[county].K13_Students_Traditional_Schools)}
+            ]
+
+            console.log(data[county].american_indian_pub_students/100)
+            console.log(data[county].K13_Students_Traditional_Schools)
+            console.log(count_per_race_group)
 
             this.render(county, race_data)
         })
