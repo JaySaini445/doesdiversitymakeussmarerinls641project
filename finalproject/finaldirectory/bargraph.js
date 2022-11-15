@@ -70,7 +70,7 @@ class BarGraph {
 
         let x = d3.scaleLinear()
             .domain([0, max_value])
-            .range([0, 1500]);
+            .range([0, 600]);
 
         // Select the chart div which will be the container for the new bar chart
         let chart = d3.select(".chart");
