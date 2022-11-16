@@ -89,9 +89,11 @@ class BarGraph {
             .call(selection => tippy(selection.nodes(), {allowHTML: true}));
     }
 
-    selectCounty(data) {
+    filterCounty(data) {
         // Get matching data.
-        // let matching_data = this.data.filter(d => d.county === data);
+        // let matching_data = this.county === data;
+
+        this.county = data
 
         bar.loadAndPrepare(data)
 
