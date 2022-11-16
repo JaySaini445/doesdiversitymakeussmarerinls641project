@@ -2,11 +2,11 @@
 
 class NC_Map {
 
+    constructor() {
+        this.dispatch = d3.dispatch("selectCounty");
+    }
+
     render(data) {
-
-        // this.dispatch = d3.dispatch("selectCounty");
-
-
         // CSV data with stats per county. We process the data to make it easier to look up by county name.
         let nc_county_pop_data = data[0].reduce((indexed_data, d) => {
             // Convert the numerical values from strings to numbers.
@@ -74,8 +74,8 @@ class NC_Map {
             })
 
             .on("click", (event,d) => {
-                console.log("Calling... " + nc_county_pop_data[d.properties.NAME])
-                // this.dispatch.call("selectCounty", this, d[0])
+                // console.log(d.properties.NAME)
+                this.dispatch.call("selectCounty", this, d.properties.NAME)
             })
 
             .call(selection => tippy(selection.nodes(), {allowHTML: true}));

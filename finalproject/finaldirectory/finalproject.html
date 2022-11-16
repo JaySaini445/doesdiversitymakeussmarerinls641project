@@ -65,9 +65,11 @@
     d3.json("nc-counties.json"),
     d3.csv("myfuturenc.csv")
   ])
-          .then(map.render);
+          .then(data => {
+            map.render(data)
+          });
 
-  // map.dispatch.on("selectCounty", bar.filterCounty.bind(bar))
+  map.dispatch.on("selectCounty", bar.filterCounty.bind(bar))
 
 
 </script>

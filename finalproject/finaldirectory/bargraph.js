@@ -5,6 +5,7 @@ class BarGraph {
 
         this.loadAndPrepare();
     }
+
     loadAndPrepare(county) {
         d3.csv(this.url, d => {
             return {
@@ -21,8 +22,7 @@ class BarGraph {
         }).then(data => {
             if (county == undefined) {
                 county = 1;
-            }
-            else {
+            } else {
                 county = +county;
             }
 
@@ -46,7 +46,7 @@ class BarGraph {
             console.log(county_name[0].county)
 
             let count_per_race_group = [
-                {american_indian: (data[county].american_indian_pub_students/100) * (data[county].K13_Students_Traditional_Schools)}
+                {american_indian: (data[county].american_indian_pub_students / 100) * (data[county].K13_Students_Traditional_Schools)}
             ]
 
             this.render(county, race_data, county_name)
@@ -58,7 +58,7 @@ class BarGraph {
         console.log(county)
 
         let data = [
-            {group:'American Indian', value: race_data[0].american_indian},
+            {group: 'American Indian', value: race_data[0].american_indian},
             {group: 'Asian/Pacific Islander', value: race_data[1].asian_pacific_islander},
             {group: 'Black', value: race_data[2].black},
             {group: 'Hispanic', value: race_data[3].hispanic},
@@ -83,11 +83,11 @@ class BarGraph {
             .style("font", "10px san-serif")
             .style("padding", "10px")
             .style("margin", "1px")
-            .style("width", d => x(d.value)+"px")
-            .text((d,i) => data[i].group)
+            .style("width", d => x(d.value) + "px")
+            .text((d, i) => data[i].group)
             .attr("data-tippy-content", d => {
                 let html = "<table>";
-                html += "<tr><td>"+ d.value + "%" + "</td></tr>"
+                html += "<tr><td>" + d.value + "%" + "</td></tr>"
                 return html;
             })
             .call(selection => tippy(selection.nodes(), {allowHTML: true}));
@@ -95,13 +95,13 @@ class BarGraph {
         console.log(data[0].value)
     }
 
-    /* filterCounty(data) {
+    filterCounty(data) {
         // Get matching data.
         // let matching_data = county_name.filter(county_name[0].county === data[0][0].CTYNAME);
 
         console.log(data)
 
-        console.log(county_name)
-        console.log(this.data[0][0].CTYNAME)
-     */
+        // console.log(county_name)
+        // console.log(this.data[0][0].CTYNAME)
     }
+}
