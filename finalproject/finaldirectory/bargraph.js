@@ -26,11 +26,7 @@ class BarGraph {
                 county = +county;
             }
 
-            console.log(data[county].Name)
-
             let county_data = [{county_name: data[county].Name}]
-
-            console.log(county_data)
 
             let race_data = [
                 {american_indian: data[county].american_indian_pub_students},
@@ -55,7 +51,7 @@ class BarGraph {
 
     render(county, race_data, county_name) {
 
-        console.log(county)
+        this.county = county
 
         let data = [
             {group: 'American Indian', value: race_data[0].american_indian},
@@ -91,15 +87,16 @@ class BarGraph {
                 return html;
             })
             .call(selection => tippy(selection.nodes(), {allowHTML: true}));
-
-        console.log(data[0].value)
     }
 
     filterCounty(data) {
         // Get matching data.
-        // let matching_data = county_name.filter(county_name[0].county === data[0][0].CTYNAME);
+        // let matching_data = this.data.filter(d => d.county === data);
 
-        console.log(data)
+        console.log(this.county + " is toolbar index")
+        console.log(data + " is the on click index")
+
+        bar.loadAndPrepare(data)
 
         // console.log(county_name)
         // console.log(this.data[0][0].CTYNAME)
