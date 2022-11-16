@@ -95,7 +95,7 @@ class BarGraph {
         console.log(data[0].value)
     }
 
-    filterCounty(data) {
+    /* filterCounty(data) {
         // Get matching data.
         // let matching_data = county_name.filter(county_name[0].county === data[0][0].CTYNAME);
 
@@ -103,5 +103,5 @@ class BarGraph {
 
         console.log(county_name)
         console.log(this.data[0][0].CTYNAME)
+     */
     }
-}

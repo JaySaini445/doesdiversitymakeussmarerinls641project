@@ -4,7 +4,7 @@ class NC_Map {
 
     render(data) {
 
-        this.dispatch = d3.dispatch("selectCounty");
+        // this.dispatch = d3.dispatch("selectCounty");
 
 
         // CSV data with stats per county. We process the data to make it easier to look up by county name.
@@ -75,7 +75,7 @@ class NC_Map {
 
             .on("click", (event,d) => {
                 console.log("Calling... " + nc_county_pop_data[d.properties.NAME])
-                this.dispatch.call("selectCounty", this, d[0])
+                // this.dispatch.call("selectCounty", this, d[0])
             })
 
             .call(selection => tippy(selection.nodes(), {allowHTML: true}));
