@@ -74,7 +74,8 @@ class NC_Map {
             })
 
             .on("click", (event,d) => {
-                // console.log(d.properties.NAME)
+                console.log(d)
+                console.log(county.stateIndex)
                 this.dispatch.call("selectCounty", this, d.properties.NAME)
             })
 
