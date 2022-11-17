@@ -74,7 +74,7 @@ class BarGraph {
         chart.selectAll("div")
             .data(data).join("div")
             .style("background", "steelblue")
-            .style("color", "white")
+            .style("color", "black")
             .style("text-align", "right")
             .style("font", "10px san-serif")
             .style("padding", "10px")
