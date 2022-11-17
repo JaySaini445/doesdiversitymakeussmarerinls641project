@@ -170,7 +170,7 @@
       this.svg
               .append('g')
               .attr('class', 'axis')
-              .attr('transform', 'translate(0,' + (500 - this.margin) + ')')
+              .attr('transform', 'translate(0,' + (500 - this.margin) +')')
               .call(d3.axisBottom(this.x));
 
       this.svg
@@ -185,7 +185,7 @@
       this.svg
               .append('g')
               .attr('class', 'axis')
-              .attr('transform', 'translate(' + this.margin + ',0)')
+              .attr('transform', 'translate(' + this.margin + ',)')
               .call(d3.axisLeft(this.y));
 
       this.svg
