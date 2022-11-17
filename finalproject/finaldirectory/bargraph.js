@@ -68,12 +68,17 @@ class BarGraph {
             .domain([0, max_value])
             .range([0, 600]);
 
+       // this.region_color =  d3.scaleOrdinal()
+          //  .domain = (['American Indian', 'Asian/Pacific Islander', 'Black', 'Hispanic', 'Multiracial', 'White'])
+           // .range = (["#e06666", "#f6b26b", "#93c47d", "#6fa8dc", "#8e7cc3", "#c27ba0"]);
+        this.region_color = d3.scaleOrdinal(["#eff3ff","#c6dbef","#9ecae1","#6baed6","#3182bd","#08519c"]);
+
         // Select the chart div which will be the container for the new bar chart
         let chart = d3.select(".chart");
 
         chart.selectAll("div")
             .data(data).join("div")
-            .style("background", "steelblue")
+            .style("background", d => this.region_color(d.group))
             .style("color", "black")
             .style("text-align", "right")
             .style("font", "10px san-serif")
