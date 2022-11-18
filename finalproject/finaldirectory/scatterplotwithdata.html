@@ -123,13 +123,13 @@
       // Poverty rates are all below 30 percent.
       this.x = d3
               .scaleLinear()
-              .domain([0, 30])
+              .domain([0, 100])
               .range([this.margin, this.width - this.margin]);
 
       // Life expectancy values all fall between 70 and 90.
       this.y = d3
               .scaleLinear()
-              .domain([90, 70])
+              .domain([21000, 9000])
               .range([this.margin, this.height - this.margin]);
 
       // There are 4 regions in the continental US, plus "Other" for
@@ -165,7 +165,7 @@
               .attr('y', -5)
               .attr('x', 0 + 500 / 2)
               .style('text-anchor', 'middle')
-              .text('Public School Expenditure');
+              .text('Public School Expenditure per Student');
 
       // Add a clip path.
       this.svg
