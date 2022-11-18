@@ -177,6 +177,8 @@
               .attr('width', this.width - 2 * this.margin)
               .attr('height', this.height - 2 * this.margin);
 
+      this.region_color = d3.scaleOrdinal(d3.schemeCategory10);
+
       this.loadAndPrepare()
     }
 
@@ -186,6 +188,7 @@
           K13_Students_Traditional_Schools: parseInt(d.K13_Students_Traditional_Schools.replace(/,/g, '')),
           Diversity_Index: +parseFloat(d.Diversity_Index).toFixed(2),
           Expenditure_per_Student_in_Thousands: +d.Expenditure_per_Student_in_Thousands,
+          Prosperity_Zone: d.Prosperity_Zone,
           Name: d.Name
         }
       }).then(data => {
@@ -193,7 +196,7 @@
         let combined_array = new Array(101)
 
         for (let i = 0; i < combined_array.length; i += 1) {
-          combined_array[i] = {CountyName: data[i].Name, Diversity: data[i].Diversity_Index, Expenditure: data[i].Expenditure_per_Student_in_Thousands}
+          combined_array[i] = {CountyName: data[i].Name, Zone: data[i].Prosperity_Zone, Diversity: data[i].Diversity_Index, Expenditure: data[i].Expenditure_per_Student_in_Thousands}
         }
 
         this.combined_array = combined_array
@@ -223,6 +226,7 @@
                               .attr('r', 0)
                               .attr('cx', (d) => this.x(d.Diversity))
                               .attr('cy', (d) => this.y(d.Expenditure))
+                              .style('fill', (d) => this.region_color(d.Zone))
                               .on(
                                       'mouseover',
                                       (e, d) =>
