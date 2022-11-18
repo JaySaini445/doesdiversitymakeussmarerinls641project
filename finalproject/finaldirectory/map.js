@@ -13,6 +13,7 @@ class NC_Map {
             d.pop2022 = +d.pop2022;
             d.GrowthRate = +d.GrowthRate;
             d.popDensity = +d.popDensity;
+            d.prosperityZone = d.prosperityZone
 
             // Store the county data as the value associated with the county's name
             indexed_data[d.CTYNAME] = d;
@@ -42,7 +43,7 @@ class NC_Map {
         let svg = d3.select("#nc_map").append('g');
 
         // Define a color scale for the map.
-        let colormap = d3.scaleLinear().domain([0,nc_county_pop_data.maxpop]).range(["silver", "silver"]);
+        let colormap = d3.scaleOrdinal(d3.schemeCategory10);
 
         // Draw the county map.
         svg.append("g")
@@ -52,8 +53,8 @@ class NC_Map {
             .enter().append("path")
             .attr("fill", d=>{
                 let county = nc_county_pop_data[d.properties.NAME + " County"];
-                let pop = county.pop2022;
-                return colormap(pop);
+                let zone = county.prosperityZone;
+                return colormap(zone);
             })
             .attr("stroke", "black")
             .attr("d", path)
@@ -63,8 +64,9 @@ class NC_Map {
                 let pop = county.pop2022;
                 let growth_rate = county.GrowthRate
                 let pop_density = county.popDensity
+                let zone = county.prosperityZone
                 let html = "<table>";
-                html += "<tr><td>" + "Population: " + pop.toLocaleString() + "<br>" +
+                html += "<tr><td>" + "Zone: " + zone + "<br>" + "Population: " + pop.toLocaleString() + "<br>" +
                     "Growth Rate: " + growth_rate.toFixed(2) + "%" + "<br>" + "Population Density: "
                     + pop_density.toFixed(2) + "/mi<sup>2</sup>" + "</td>" +
                     "</td>" + d.properties.NAME + " County" + "</td></tr>"
