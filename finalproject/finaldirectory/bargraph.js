@@ -102,6 +102,9 @@ class BarGraph {
 
         bar.loadAndPrepare(data)
 
+        d3.select('#county_select').property('value', data)
+
+
         console.log(this.county + " is toolbar index")
         console.log(data + " is the on click index")
 
