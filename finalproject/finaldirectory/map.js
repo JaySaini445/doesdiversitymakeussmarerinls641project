@@ -7,6 +7,8 @@ class NC_Map {
     }
 
     render(data) {
+        console.log(this)
+
         // CSV data with stats per county. We process the data to make it easier to look up by county name.
         let nc_county_pop_data = data[0].reduce((indexed_data, d) => {
             // Convert the numerical values from strings to numbers.
@@ -72,6 +74,21 @@ class NC_Map {
                     "</td>" + d.properties.NAME + " County" + "</td></tr>"
                 return html;
             })
+
+            .on("mouseover", function(d) {
+                d3.select(this)
+                    .attr("fill" , "lightskyblue")
+            })
+
+            .on("mouseout", function(d) {
+                d3.select(this)
+                    .transition()
+                    .duration(400)
+                    .attr("fill", d=>{
+                        let county = nc_county_pop_data[d.properties.NAME + " County"];
+                        let zone = county.prosperityZone;
+                        return colormap(zone);
+            })})
 
             .on("click", (event,d) => {
                 this.dispatch.call("selectCounty", this, parseInt(nc_county_pop_data[d.properties.NAME + " County"].stateIndex))
