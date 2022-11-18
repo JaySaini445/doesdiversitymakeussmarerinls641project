@@ -184,28 +184,24 @@
       d3.csv(this.url, d => {
         return {
           K13_Students_Traditional_Schools: parseInt(d.K13_Students_Traditional_Schools.replace(/,/g, '')),
-          Diversity_Index: d.Diversity_Index,
-          Expenditure_per_Student: d.Expenditure_per_Student,
+          Diversity_Index: +parseFloat(d.Diversity_Index).toFixed(2),
+          Expenditure_per_Student_in_Thousands: +d.Expenditure_per_Student_in_Thousands,
           Name: d.Name
         }
       }).then(data => {
-        if (county == undefined) {
-          county = 1;
-        } else {
-          county = +county;
+
+        let combined_array = new Array(101)
+
+        for (let i = 0; i < combined_array.length; i += 1) {
+          combined_array[i] = {CountyName: data[i].Name, Diversity: data[i].Diversity_Index, Expenditure: data[i].Expenditure_per_Student_in_Thousands}
         }
 
-        let dataset = [
-          {
-            county: data[county].Name,
-            public_school_expenditure: data[county].Expenditure_per_Student,
-            diversity_index: data[county].Diversity_Index,
-          }
-        ];
+        this.combined_array = combined_array
 
-        console.log(dataset)
+        console.log(combined_array)
+        console.log(combined_array[0].CountyName)
 
-        this.render(dataset)
+        this.render()
       })
     }
 
@@ -215,33 +211,28 @@
     //
     // The _subset parameter will have one of six possible values: 'us', 'northeast',
     // 'south', 'west', 'midwest', or 'other'.
-    render(_subset) {
+    render() {
       // Filter the data
-      let data_subset = _subset;
-      if (_subset != 'North Carolina') {
-        data_subset = data.filter((d) => d.region == _subset);
-      }
       let circles = this.svg
               .selectAll('circle')
-              .data(data_subset, (d) => d.county);
+              .data(this.combined_array, d => d.CountyName);
       circles.join(
               (enter) =>
                       enter
                               .append('circle')
                               .attr('r', 0)
-                              .attr('cx', (d) => this.x(d.diversity_index))
-                              .attr('cy', (d) => this.y(d.public_school_expenditure))
-                              .style('fill', (d) => this.region_color(d.region))
+                              .attr('cx', (d) => this.x(d.Diversity))
+                              .attr('cy', (d) => this.y(d.Expenditure))
                               .on(
                                       'mouseover',
                                       (e, d) =>
                                               (document.getElementById('details').innerHTML =
-                                                      d.county +
-                                                      ' has a public school expenditure of ' +
-                                                      d.public_school_expenditure +
-                                                      ' and a diversity index of ' +
-                                                      d.diversity_index +
-                                                      '%.')
+                                                      d.CountyName +
+                                                      ' has a diversity index of ' +
+                                                      d.Diversity +
+                                                      ' and overall expenditure is $' +
+                                                              (1000*d.Expenditure).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") +
+                                                      ' per student.')
                               )
                               .on(
                                       'mouseout',
@@ -267,7 +258,7 @@
     }
 
     // Update the correlation score based on the selected subset.
-    updateCorrelation(data_subset, _region) {
+    /* updateCorrelation(data_subset, _region) {
       d3.selectAll('#line').remove();
       const data = data_subset.sort(
               (a, b) => a.diversity_index - b.diversity_index
@@ -304,12 +295,12 @@
       ).innerHTML = `In ${_region}, life expectancy and poverty rate have a corelation score of
           ${linearRegression.m.toFixed(2)}`;
     }
+     */
   }
 
   // Finally, create the scatterplot and initialize it to show all of the 'us' data (the default setting for the
   // select dropdown).
   let scatterplot = new Scatterplot('vis_container');
-  scatterplot.render('North Carolina');
 </script>
 </body>
 </html>
