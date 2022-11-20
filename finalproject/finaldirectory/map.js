@@ -90,8 +90,10 @@ class NC_Map {
                         return colormap(zone);
             })})
 
-            .on("click", (event,d) => {
-                this.dispatch.call("selectCounty", this, parseInt(nc_county_pop_data[d.properties.NAME + " County"].stateIndex))
+            .on("click", function (event,d) {
+                map.dispatch.call("selectCounty", NC_Map, parseInt(nc_county_pop_data[d.properties.NAME + " County"].stateIndex));
+                svg.selectAll('path').attr('class','county');
+                d3.select(this).attr('class','selected');
             })
 
             .call(selection => tippy(selection.nodes(), {allowHTML: true}));
