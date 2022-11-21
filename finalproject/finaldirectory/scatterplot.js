@@ -179,7 +179,7 @@ class Scatterplot {
         this.svg.selectAll("circle").data(matching_data, d => d.CountyName).join(
             enter => enter,
             update => update.style("fill", "red").raise(),
-            exit => exit.style("fill", "white")
+            exit => exit.style("fill", "black")
         )
     }
 
