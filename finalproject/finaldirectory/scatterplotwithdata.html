@@ -235,7 +235,7 @@
                                                       ' has a diversity index of ' +
                                                       d.Diversity +
                                                       ' and overall expenditure is $' +
-                                                              (1000*d.Expenditure).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") +
+                                                      (1000*d.Expenditure).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") +
                                                       ' per student.')
                               )
                               .on(
@@ -267,7 +267,6 @@
       const data = data_subset.sort(
               (a, b) => a.diversity_index - b.diversity_index
       );
-
       let linearRegression = ss.linearRegression(
               data.map((d) => [d.diversity_index, d.public_school_expenditure])
       );
@@ -277,7 +276,6 @@
       const firstX = data[0].diversity_index;
       const lastX = data.slice(-1)[0].diversity_index;
       const xCoordinates = [firstX, lastX];
-
       const regressionPoints = xCoordinates.map((d) => ({
         x: d,
         y: linearRegressionLine(d),
