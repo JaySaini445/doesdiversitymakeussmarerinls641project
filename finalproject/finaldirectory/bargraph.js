@@ -27,8 +27,6 @@ class BarGraph {
                 county = +county;
             }
 
-            let county_data = [{county_name: data[county].Name}]
-
             let race_data = [
                 {american_indian: data[county].american_indian_pub_students},
                 {asian_pacific_islander: data[county].asian_pacific_islander_pub_students},

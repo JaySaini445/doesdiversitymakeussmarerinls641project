@@ -90,7 +90,7 @@
 <span id="details">&nbsp;</span>
 
 <p>Select a county:
-    <select id="county_select" onchange="bar.loadAndPrepare(this.options[this.selectedIndex].value);">
+    <select id="county_select" onchange="bar.loadAndPrepare(this.options[this.selectedIndex].value); scatter.highlightCounty(this.options[this.selectedIndex].value)">
       <option value="1">Alamance</option>
       <option value="2">Alexander</option>
       <option value="3">Alleghany</option>
@@ -219,8 +219,12 @@
             map.render(data)
           });
 
-  map.dispatch.on("selectCounty.bar", bar.filterCounty.bind(bar))
-  map.dispatch.on("selectCounty.scatter", scatter.highlightCounty.bind(scatter))
+  map.dispatch.on("selectCounty.bar", bar.filterCounty.bind(bar));
+  map.dispatch.on("selectCounty.scatter", scatter.highlightCounty.bind(scatter));
+
+  scatter.dispatch.on("selectCounty.bar", bar.filterCounty.bind(bar));
+  scatter.dispatch.on("selectCounty.map", map.clickMark.bind(map));
+
 
 </script>
 </body>
