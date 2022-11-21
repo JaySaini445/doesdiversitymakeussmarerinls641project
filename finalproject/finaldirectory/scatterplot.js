@@ -80,7 +80,7 @@ class Scatterplot {
         this.loadAndPrepare()
     }
 
-    loadAndPrepare(county) {
+    loadAndPrepare() {
         d3.csv(this.url, d => {
             return {
                 K13_Students_Traditional_Schools: parseInt(d.K13_Students_Traditional_Schools.replace(/,/g, '')),
@@ -140,6 +140,20 @@ class Scatterplot {
                         (e, d) =>
                             (document.getElementById('details').innerHTML = '&nbsp;')
                     )
+
+                    .on("click", (event,d) => {
+                        // Deal with the click locally for this chart.
+                        let countyindex = this.combined_array.map(d => d.CountyName).indexOf(d.CountyName);
+                        console.log(countyindex)
+
+                        this.highlightCounty(countyindex);
+
+                        let matching_data = this.combined_array.filter(d => d.CountyName === this.combined_array[countyindex].CountyName);
+
+                        // Tell other "listening" charts that the specials has changed.
+                        this.dispatch.call("selectCounty", this, countyindex)
+                    })
+
                     // Animate the radius to have the circles slowly grow to full size.
                     .transition()
                     .delay(500 * !circles.exit().empty())
@@ -159,13 +173,7 @@ class Scatterplot {
     }
 
     highlightCounty(countynum) {
-        console.log(countynum)
-
-        console.log(this.combined_array[countynum])
-
         let matching_data = this.combined_array.filter(d => d.CountyName === this.combined_array[countynum].CountyName);
-
-        console.log(matching_data)
 
         this.svg.selectAll("circle").data(matching_data, d => d.CountyName).join(
             enter => enter,

@@ -2,6 +2,7 @@ class BarGraph {
     constructor(svg_id) {
         this.url = "myfuturenc.csv";
         this.svg_id = svg_id;
+        this.dispatch = d3.dispatch("selectCounty");
 
         this.loadAndPrepare();
     }
@@ -37,19 +38,11 @@ class BarGraph {
                 {white: data[county].white_pub_students}
             ]
 
-            let county_name = [{county: data[county].Name}]
-
-            console.log(county_name[0].county)
-
-            let count_per_race_group = [
-                {american_indian: (data[county].american_indian_pub_students / 100) * (data[county].K13_Students_Traditional_Schools)}
-            ]
-
-            this.render(county, race_data, county_name)
+            this.render(county, race_data)
         })
     }
 
-    render(county, race_data, county_name) {
+    render(county, race_data) {
 
         this.county = county
 

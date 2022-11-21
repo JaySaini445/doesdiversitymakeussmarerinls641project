@@ -27,6 +27,8 @@ class NC_Map {
             return indexed_data;
         }, {maxpop: 0});
 
+        this.nc_county_pop_data = nc_county_pop_data
+
         // TopoJson data, which we convert to GeoJson format for use with D3.
         let nc_county_map_data = topojson.feature(data[1], data[1].objects.cb_2015_north_carolina_county_20m);
 
@@ -43,6 +45,8 @@ class NC_Map {
 
         // Select the SVG element for the map.
         let svg = d3.select("#nc_map").append('g');
+
+        this.svg = svg
 
         // Define a color scale for the map.
         let colormap = d3.scaleOrdinal(d3.schemeCategory10);
@@ -97,6 +101,18 @@ class NC_Map {
             })
 
             .call(selection => tippy(selection.nodes(), {allowHTML: true}));
+    }
+    clickMark(countynum) {
+        console.log(countynum)
+        let matching_data = scatter.combined_array.filter(d => d.CountyName === scatter.combined_array[countynum].CountyName);
+
+        console.log(matching_data)
+
+        this.svg.selectAll("path").attr('class', 'county').data(matching_data, d => d.CountyName).join(
+            enter => enter,
+            update => update,
+            exit => exit.style("fill", "yellow")
+        )
     }
 }
 
