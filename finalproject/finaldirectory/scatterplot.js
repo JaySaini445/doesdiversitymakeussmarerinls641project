@@ -34,6 +34,7 @@ class Scatterplot {
         // Hawaii and Alaska.
         this.region_color = d3.scaleOrdinal(d3.schemeCategory10);
 
+
         // Add axes.  First the X axis and label.
         this.svg
             .append('g')
@@ -178,7 +179,7 @@ class Scatterplot {
         this.svg.selectAll("circle").data(matching_data, d => d.CountyName).join(
             enter => enter,
             update => update.style("fill", "red").raise(),
-            exit => exit.style("fill", "black")
+            exit => exit.style("fill", "white")
         )
     }
 
