@@ -36,7 +36,7 @@ class NC_Map {
         // in the middle of the US, which means NC will "tilt" a bit due to its location on the eastern coast).
         let projection = d3.geoAlbers()
             .rotate([79, 0])
-            .fitSize([600,400], nc_county_map_data);
+            .fitSize([650,400], nc_county_map_data);
 
         // Define the path generator using the projection.
         let path = d3.geoPath().projection(projection);
