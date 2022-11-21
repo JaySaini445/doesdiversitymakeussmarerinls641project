@@ -5,21 +5,6 @@
 <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>
 <script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js"></script>
 
-
-<!-- JQuery source -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
-<!-- loading scatterplotwithdata.html -->
-<script>
-  $(document).ready(function(){
-     
-     $('#scatterplot1').load("scatterplotwithdata.html");
-  
-  });
-  </script>
-  <!-- END loading scatterplotwithdata (look to line ~168 for call) -->
-
-
 <head>
   <meta charset="UTF-8">
   <title>Academic Achievement, Funding, and Diversity</title>
@@ -52,8 +37,33 @@
       position: relative;
       height: 300px;
       width: 900px;
-      top: -700px;
+      top: -575px;
       left: 700px;
+    }
+
+    /* Style information for axis labels */
+    .axis-label {
+      font-family: sans-serif;
+      font-size: 12px;
+    }
+
+    /* Style information for axis lines and tick marks */
+    .axis path,
+    .axis line {
+      fill: none;
+      stroke: black;
+      shape-rendering: crispEdges;
+    }
+
+    .axis text {
+      font-family: sans-serif;
+      font-size: 11px;
+    }
+    .regressionLine {
+      stroke: black;
+      fill: none;
+      stroke-width: 1.2;
+      stroke-dasharray: 3, 5;
     }
 
 
@@ -61,9 +71,12 @@
 
   <script src="bargraph.js"></script>
   <script src="map.js"></script>
+  <script src="scatterplot.js"></script>
 
 </head>
 <body>
+
+<span id="details">&nbsp;</span>
 
 <p>Select a county:
     <select id="county_select" onchange="bar.loadAndPrepare(this.options[this.selectedIndex].value);">
@@ -181,7 +194,8 @@
 <script>
 
   let bar = new BarGraph("chart");
-  let map = new NC_Map()
+  let map = new NC_Map();
+  let scatter = new Scatterplot();
 
   Promise.all([
     d3.csv("nc_county_data.csv"),
@@ -192,7 +206,8 @@
             map.render(data)
           });
 
-  map.dispatch.on("selectCounty", bar.filterCounty.bind(bar))
+  map.dispatch.on("selectCounty.bar", bar.filterCounty.bind(bar))
+  map.dispatch.on("selectCounty.scatter", scatter.highlightCounty.bind(scatter))
 
 </script>
 </body>
