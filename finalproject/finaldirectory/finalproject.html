@@ -5,6 +5,21 @@
 <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>
 <script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js"></script>
 
+
+<!-- JQuery source -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<!-- loading scatterplotwithdata.html -->
+<script>
+  $(document).ready(function(){
+     
+     $('#scatterplot1').load("scatterplotwithdata.html");
+  
+  });
+  </script>
+  <!-- END loading scatterplotwithdata (look to line ~168 for call) -->
+
+
 <head>
   <meta charset="UTF-8">
   <title>Academic Achievement, Funding, and Diversity</title>
@@ -33,6 +48,15 @@
       color: white;
     }
 
+    #scatterplot1 {
+      position: relative;
+      height: 300px;
+      width: 900px;
+      top: -700px;
+      left: 700px;
+    }
+
+
   </style>
 
   <script src="bargraph.js"></script>
@@ -40,7 +64,6 @@
 
 </head>
 <body>
-<svg id="nc_map" style="width: 600; height: 400; border: 1px solid black;"></svg>
 
 <p>Select a county:
     <select id="county_select" onchange="bar.loadAndPrepare(this.options[this.selectedIndex].value);">
@@ -146,9 +169,11 @@
       <option value="100">Yancey</option>
     </select>
 </p>
-
+<svg id="nc_map" style="width: 600; height: 400; border: 1px solid black;"></svg>
 <div class="chart">
 </div>
+
+<div id="scatterplot1"></div>
 
 <script>
 
