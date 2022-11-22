@@ -105,15 +105,31 @@ class NC_Map {
     }
     clickMark(countynum) {
         console.log(countynum)
-        let matching_data = this.nc_county_map_data.features.filter(d => d.properties.NAME === scatter.combined_array[countynum].CountyName);
 
-        console.log(this.nc_county_map_data.features[countynum].properties.NAME)
         console.log(this.nc_county_map_data)
+
+        let countynameabbrev = scatter.combined_array[countynum].CountyName.replace(' County','');
+        console.log(countynameabbrev)
+
+        function selectWhere(data, propertyName) {
+            for (let i = 0; i < 100; i++) {
+                if (data[i].properties.NAME == propertyName)
+                    return i;
+            }
+            return null;
+        }
+
+        let matchingmapindex = selectWhere(this.nc_county_map_data.features, countynameabbrev);
+
+        console.log(matchingmapindex)
+
+        let matching_data = this.nc_county_map_data.features[matchingmapindex]
+
         console.log(matching_data)
 
-        this.svg.selectAll("path").attr('class', 'county').data(matching_data, d => d.properties.NAME).join(
+        this.svg.attr("class", "county").selectAll("path").data(matching_data, d => d.properties.NAME).join(
             enter => enter,
-            update => update.style("fill", "yellow"),
+            update => update.style("fill", "yellow").raise(),
             exit => exit.style("fill", "black")
         )
     }
