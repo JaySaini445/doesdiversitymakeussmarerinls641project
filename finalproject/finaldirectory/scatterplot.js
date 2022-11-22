@@ -142,6 +142,14 @@ class Scatterplot {
                             (document.getElementById('details').innerHTML = '&nbsp;')
                     )
 
+                    .attr("data-tippy-content", d => {
+                        let html = "<table>";
+                        html += "<tr><td>" + "Diversity Index: " + d.Diversity + "<br>" + "Expenditure per Student: $" +
+                            (1000*d.Expenditure).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") +
+                            "</td>" + "</td>" + d.CountyName + "</td></tr>"
+                        return html;
+                    })
+
                     .on("click", (event,d) => {
                         // Deal with the click locally for this chart.
                         let countyindex = this.combined_array.map(d => d.CountyName).indexOf(d.CountyName);
@@ -155,7 +163,9 @@ class Scatterplot {
                         this.dispatch.call("selectCounty", this, countyindex)
                     })
 
-                    // Animate the radius to have the circles slowly grow to full size.
+                    .call(selection => tippy(selection.nodes(), {allowHTML: true}))
+
+        // Animate the radius to have the circles slowly grow to full size.
                     .transition()
                     .delay(500 * !circles.exit().empty())
                     .duration(500)

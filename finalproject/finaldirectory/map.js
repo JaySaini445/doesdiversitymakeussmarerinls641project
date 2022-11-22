@@ -108,11 +108,12 @@ class NC_Map {
 
         console.log(matching_data)
 
-        this.svg.selectAll("path").attr('class', 'county').data(matching_data, d => d.CountyName).join(
+        /* this.svg.selectAll("path").attr('class', 'county').data(matching_data, d => d.CountyName).join(
             enter => enter,
             update => update.style("fill", "black"),
             exit => exit.style("fill", "yellow")
         )
+         */
     }
 }
 
