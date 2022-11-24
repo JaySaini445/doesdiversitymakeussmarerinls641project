@@ -104,4 +104,5 @@ class BarGraph {
         // console.log(county_name)
         // console.log(this.data[0][0].CTYNAME)
     }
+
 }
