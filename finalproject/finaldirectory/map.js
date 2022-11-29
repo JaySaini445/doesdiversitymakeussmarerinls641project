@@ -108,7 +108,7 @@ class NC_Map {
 
         console.log(this.nc_county_map_data)
 
-        let countynameabbrev = scatter.combined_array[countynum].CountyName.replace(' County','');
+        let countynameabbrev = scatter1.combined_array[countynum].CountyName.replace(' County','');
         console.log(countynameabbrev)
 
         function selectWhere(data, propertyName) {

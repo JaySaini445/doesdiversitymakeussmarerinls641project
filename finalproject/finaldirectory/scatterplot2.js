@@ -1,4 +1,4 @@
-class Scatterplot {
+class Scatterplot2 {
     constructor() {
         this.url = "myfuturenc.csv";
         this.dispatch = d3.dispatch("selectCounty");
@@ -12,7 +12,7 @@ class Scatterplot {
 
         // Create the SVG canvas that will be used to render the visualization.
         this.svg = d3
-            .select('#scatterplot1')
+            .select('#scatterplot2')
             .append('svg')
             .attr('width', this.width)
             .attr('height', this.height);
@@ -21,13 +21,13 @@ class Scatterplot {
         // Poverty rates are all below 30 percent.
         this.x = d3
             .scaleLinear()
-            .domain([0, 100])
+            .domain([150, 1350])
             .range([this.margin, this.width - this.margin]);
 
         // Life expectancy values all fall between 70 and 90.
         this.y = d3
             .scaleLinear()
-            .domain([21, 9])
+            .domain([100, 70])
             .range([this.margin, this.height - this.margin]);
 
         // There are 4 regions in the continental US, plus "Other" for
@@ -48,7 +48,7 @@ class Scatterplot {
             .attr('y', 495)
             .attr('x', 0 + 500 / 2)
             .style('text-anchor', 'middle')
-            .text('Diversity Index');
+            .text('Students per School Counselor');
 
         // Now the Y axis and label.
         this.svg
@@ -64,7 +64,7 @@ class Scatterplot {
             .attr('y', -5)
             .attr('x', 0 + 500 / 2)
             .style('text-anchor', 'middle')
-            .text('Public School Expenditure per Student');
+            .text('Graduation Rate');
 
         // Add a clip path.
         this.svg
@@ -84,9 +84,8 @@ class Scatterplot {
     loadAndPrepare() {
         d3.csv(this.url, d => {
             return {
-                K13_Students_Traditional_Schools: parseInt(d.K13_Students_Traditional_Schools.replace(/,/g, '')),
-                Diversity_Index: +parseFloat(d.Diversity_Index).toFixed(2),
-                Expenditure_per_Student_in_Thousands: +d.Expenditure_per_Student_in_Thousands,
+                High_School_Graduation_Rate: parseFloat(d.High_School_Graduation_Rate),
+                Students_per_School_Counselor: d.Students_per_School_Counselor.replace(/,/g, ''),
                 Prosperity_Zone: d.Prosperity_Zone,
                 Name: d.Name
             }
@@ -95,7 +94,7 @@ class Scatterplot {
             let combined_array = new Array(101)
 
             for (let i = 0; i < combined_array.length; i += 1) {
-                combined_array[i] = {CountyName: data[i].Name, Zone: data[i].Prosperity_Zone, Diversity: data[i].Diversity_Index, Expenditure: data[i].Expenditure_per_Student_in_Thousands}
+                combined_array[i] = {CountyName: data[i].Name, Zone: data[i].Prosperity_Zone, Grad_Rate: data[i].High_School_Graduation_Rate, Students_per_Counselor: data[i].Students_per_School_Counselor}
             }
 
             this.combined_array = combined_array
@@ -123,14 +122,13 @@ class Scatterplot {
                 enter
                     .append('circle')
                     .attr('r', 0)
-                    .attr('cx', (d) => this.x(d.Diversity))
-                    .attr('cy', (d) => this.y(d.Expenditure))
+                    .attr('cx', (d) => this.x(d.Students_per_Counselor))
+                    .attr('cy', (d) => this.y(d.Grad_Rate))
 
                     .attr("data-tippy-content", d => {
                         let html = "<table>";
-                        html += "<tr><td>" + "Diversity Index: " + d.Diversity + "<br>" + "Expenditure per Student: $" +
-                            (1000*d.Expenditure).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") +
-                            "</td>" + "</td>" + d.CountyName + "</td></tr>"
+                        html += "<tr><td>" + "High School Graduation Rate: " + d.Grad_Rate + "%<br>" + "Students per School Counselor: " +
+                            d.Students_per_Counselor + "</td>" + "</td>" + d.CountyName + "</td></tr>"
                         return html;
                     })
 
@@ -181,9 +179,8 @@ class Scatterplot {
 
     scatterDetails(d) {
         document.getElementById('details').innerHTML = d[0].CountyName +
-            ' has a diversity index of ' + d[0].Diversity + ' and overall expenditure is $' +
-            (1000*d[0].Expenditure).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") +
-            ' per student.'
+            ' has a graduation rate of ' + d[0].Grad_Rate + '% and ' +
+            d[0].Students_per_Counselor + ' students per school counselor.'
     }
 
     // Update the correlation score based on the selected subset.

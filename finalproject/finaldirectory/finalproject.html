@@ -82,7 +82,8 @@
 
   <script src="bargraph.js"></script>
   <script src="map.js"></script>
-  <script src="scatterplot.js"></script>
+  <script src="scatterplot1.js"></script>
+  <script src="scatterplot2.js"></script>
 
 </head>
 <body>
@@ -91,7 +92,7 @@
 
 <p>Select a county:
   <select id="county_select" onchange="bar.loadAndPrepare(this.options[this.selectedIndex].value);
-  scatter.highlightCounty(this.options[this.selectedIndex].value); map.clickMark(this.options[this.selectedIndex].value)">
+  scatter1.highlightCounty(this.options[this.selectedIndex].value); map.clickMark(this.options[this.selectedIndex].value)">
     <option value="1">Alamance</option>
     <option value="2">Alexander</option>
     <option value="3">Alleghany</option>
@@ -205,11 +206,16 @@
 
 </div>
 
+<div id="scatterplot2">
+
+</div>
+
 <script>
 
   let bar = new BarGraph("chart");
   let map = new NC_Map();
-  let scatter = new Scatterplot();
+  let scatter1 = new Scatterplot1();
+  let scatter2 = new Scatterplot2();
 
   Promise.all([
     d3.csv("nc_county_data.csv"),
@@ -221,10 +227,16 @@
           });
 
   map.dispatch.on("selectCounty.bar", bar.filterCounty.bind(bar));
-  map.dispatch.on("selectCounty.scatter", scatter.highlightCounty.bind(scatter));
+  map.dispatch.on("selectCounty.scatter1", scatter1.highlightCounty.bind(scatter1));
+  map.dispatch.on("selectCounty.scatter2", scatter2.highlightCounty.bind(scatter2));
 
-  scatter.dispatch.on("selectCounty.bar", bar.filterCounty.bind(bar));
-  scatter.dispatch.on("selectCounty.map", map.clickMark.bind(map));
+  scatter1.dispatch.on("selectCounty.bar", bar.filterCounty.bind(bar));
+  scatter1.dispatch.on("selectCounty.map", map.clickMark.bind(map));
+  scatter1.dispatch.on("selectCounty.scatter2", scatter2.highlightCounty.bind(scatter2));
+
+  scatter2.dispatch.on("selectCounty.bar", bar.filterCounty.bind(bar));
+  scatter2.dispatch.on("selectCounty.map", map.clickMark.bind(map));
+  scatter2.dispatch.on("selectCounty.scatter1", scatter1.highlightCounty.bind(scatter1));
 
 
 </script>
