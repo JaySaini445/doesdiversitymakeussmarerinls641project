@@ -180,10 +180,10 @@ class Scatterplot1 {
     }
 
     scatterDetails(d) {
-        document.getElementById('details').innerHTML = d[0].CountyName +
-            ' has a diversity index of ' + d[0].Diversity + ' and overall expenditure is $' +
+        document.getElementById('details1').innerHTML = d[0].CountyName +
+            ' has a diversity index of ' + d[0].Diversity + ', an overall expenditure of $' +
             (1000*d[0].Expenditure).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") +
-            ' per student.'
+            ' per student,'
     }
 
     // Update the correlation score based on the selected subset.

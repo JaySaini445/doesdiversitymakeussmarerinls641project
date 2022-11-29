@@ -178,8 +178,7 @@ class Scatterplot2 {
     }
 
     scatterDetails(d) {
-        document.getElementById('details').innerHTML = d[0].CountyName +
-            ' has a graduation rate of ' + d[0].Grad_Rate + '% and ' +
+        document.getElementById('details2').innerHTML = 'a graduation rate of ' + d[0].Grad_Rate + '%, and ' +
             d[0].Students_per_Counselor + ' students per school counselor.'
     }
 
