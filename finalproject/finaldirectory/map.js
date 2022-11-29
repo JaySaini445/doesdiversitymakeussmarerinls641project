@@ -97,11 +97,8 @@ class NC_Map {
 
             .on("click", function (event,d) {
                 let countyindex = map.nc_county_map_data.features.map(d => d.properties.NAME).indexOf(d.properties.NAME);
-                console.log(countyindex)
 
                 let countynameabbr = map.nc_county_map_data.features[countyindex].properties.NAME + ' County'
-
-                console.log(countynameabbr)
 
                 function selectWhere(data, propertyName) {
                     for (let i = 0; i < 100; i++) {
@@ -112,8 +109,6 @@ class NC_Map {
                 }
 
                 let matchingmapindex = selectWhere(scatter1.combined_array, countynameabbr);
-
-                console.log(matchingmapindex + " is sssss")
 
                 map.clickMark(matchingmapindex)
                 map.dispatch.call("selectCounty", NC_Map, parseInt(nc_county_pop_data[d.properties.NAME + " County"].stateIndex));
