@@ -90,7 +90,8 @@
 <span id="details">&nbsp;</span>
 
 <p>Select a county:
-  <select id="county_select" onchange="bar.loadAndPrepare(this.options[this.selectedIndex].value); scatter.highlightCounty(this.options[this.selectedIndex].value)">
+  <select id="county_select" onchange="bar.loadAndPrepare(this.options[this.selectedIndex].value);
+  scatter.highlightCounty(this.options[this.selectedIndex].value); map.clickMark(this.options[this.selectedIndex].value)">
     <option value="1">Alamance</option>
     <option value="2">Alexander</option>
     <option value="3">Alleghany</option>
