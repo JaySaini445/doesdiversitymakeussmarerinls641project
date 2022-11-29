@@ -27,8 +27,6 @@ class BarGraph {
                 county = +county;
             }
 
-            let county_data = [{county_name: data[county].Name}]
-
             let race_data = [
                 {american_indian: data[county].american_indian_pub_students},
                 {asian_pacific_islander: data[county].asian_pacific_islander_pub_students},
@@ -61,9 +59,9 @@ class BarGraph {
             .domain([0, max_value])
             .range([0, 600]);
 
-       // this.region_color =  d3.scaleOrdinal()
-          //  .domain = (['American Indian', 'Asian/Pacific Islander', 'Black', 'Hispanic', 'Multiracial', 'White'])
-           // .range = (["#e06666", "#f6b26b", "#93c47d", "#6fa8dc", "#8e7cc3", "#c27ba0"]);
+        // this.region_color =  d3.scaleOrdinal()
+        //  .domain = (['American Indian', 'Asian/Pacific Islander', 'Black', 'Hispanic', 'Multiracial', 'White'])
+        // .range = (["#e06666", "#f6b26b", "#93c47d", "#6fa8dc", "#8e7cc3", "#c27ba0"]);
         this.region_color = d3.scaleOrdinal(["#eff3ff","#c6dbef","#9ecae1","#6baed6","#3182bd","#08519c"]);
 
         // Select the chart div which will be the container for the new bar chart

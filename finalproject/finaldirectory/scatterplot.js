@@ -125,22 +125,14 @@ class Scatterplot {
                     .attr('r', 0)
                     .attr('cx', (d) => this.x(d.Diversity))
                     .attr('cy', (d) => this.y(d.Expenditure))
-                    .on(
-                        'mouseover',
-                        (e, d) =>
-                            (document.getElementById('details').innerHTML =
-                                d.CountyName +
-                                ' has a diversity index of ' +
-                                d.Diversity +
-                                ' and overall expenditure is $' +
-                                (1000*d.Expenditure).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") +
-                                ' per student.')
-                    )
-                    .on(
-                        'mouseout',
-                        (e, d) =>
-                            (document.getElementById('details').innerHTML = '&nbsp;')
-                    )
+
+                    .attr("data-tippy-content", d => {
+                        let html = "<table>";
+                        html += "<tr><td>" + "Diversity Index: " + d.Diversity + "<br>" + "Expenditure per Student: $" +
+                            (1000*d.Expenditure).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") +
+                            "</td>" + "</td>" + d.CountyName + "</td></tr>"
+                        return html;
+                    })
 
                     .on("click", (event,d) => {
                         // Deal with the click locally for this chart.
@@ -154,6 +146,8 @@ class Scatterplot {
                         // Tell other "listening" charts that the specials has changed.
                         this.dispatch.call("selectCounty", this, countyindex)
                     })
+
+                    .call(selection => tippy(selection.nodes(), {allowHTML: true}))
 
                     // Animate the radius to have the circles slowly grow to full size.
                     .transition()
@@ -176,11 +170,20 @@ class Scatterplot {
     highlightCounty(countynum) {
         let matching_data = this.combined_array.filter(d => d.CountyName === this.combined_array[countynum].CountyName);
 
+        this.scatterDetails(matching_data)
+
         this.svg.selectAll("circle").data(matching_data, d => d.CountyName).join(
             enter => enter,
             update => update.style("fill", "red").raise(),
-            exit => exit.style("fill", "white")
+            exit => exit.style("fill", "black")
         )
+    }
+
+    scatterDetails(d) {
+        document.getElementById('details').innerHTML = d[0].CountyName +
+            ' has a diversity index of ' + d[0].Diversity + ' and overall expenditure is $' +
+            (1000*d[0].Expenditure).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") +
+            ' per student.'
     }
 
     // Update the correlation score based on the selected subset.

@@ -32,6 +32,7 @@ class NC_Map {
         // TopoJson data, which we convert to GeoJson format for use with D3.
         let nc_county_map_data = topojson.feature(data[1], data[1].objects.cb_2015_north_carolina_county_20m);
 
+        this.nc_county_map_data = nc_county_map_data
 
 
         // Define a projection with rotation to make NC "horizontal" (by default, the Albers projection is centered
@@ -92,7 +93,7 @@ class NC_Map {
                         let county = nc_county_pop_data[d.properties.NAME + " County"];
                         let zone = county.prosperityZone;
                         return colormap(zone);
-            })})
+                    })})
 
             .on("click", function (event,d) {
                 map.dispatch.call("selectCounty", NC_Map, parseInt(nc_county_pop_data[d.properties.NAME + " County"].stateIndex));
@@ -104,14 +105,32 @@ class NC_Map {
     }
     clickMark(countynum) {
         console.log(countynum)
-        let matching_data = scatter.combined_array.filter(d => d.CountyName === scatter.combined_array[countynum].CountyName);
+
+        console.log(this.nc_county_map_data)
+
+        let countynameabbrev = scatter.combined_array[countynum].CountyName.replace(' County','');
+        console.log(countynameabbrev)
+
+        function selectWhere(data, propertyName) {
+            for (let i = 0; i < 100; i++) {
+                if (data[i].properties.NAME == propertyName)
+                    return i;
+            }
+            return null;
+        }
+
+        let matchingmapindex = selectWhere(this.nc_county_map_data.features, countynameabbrev);
+
+        console.log(matchingmapindex)
+
+        let matching_data = this.nc_county_map_data.features[matchingmapindex]
 
         console.log(matching_data)
 
-        this.svg.selectAll("path").attr('class', 'county').data(matching_data, d => d.CountyName).join(
+        this.svg.attr("class", "county").selectAll("path").data([matching_data], d => d.properties.NAME).join(
             enter => enter,
-            update => update,
-            exit => exit.style("fill", "yellow")
+            update => update.style("fill", "yellow").raise(),
+            exit => exit.style("fill", null)
         )
     }
 }
