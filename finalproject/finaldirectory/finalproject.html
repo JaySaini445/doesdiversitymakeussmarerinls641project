@@ -43,13 +43,21 @@
 
     #scatterplot1 {
       position: relative;
-      height: 300px;
-      width: 900px;
+      height: 500px;
+      width: 500px;
       top: -575px;
-      left: 700px;
+      left: 675px;
       color: black;
     "gray","cyan","magenta"
+    }
 
+    #scatterplot2 {
+      position: relative;
+      height: 500px;
+      width: 500px;
+      top: -1075px;
+      left: 1160px;
+      color: black;
     }
 
     /* Style information for axis labels */
@@ -75,6 +83,13 @@
       fill: none;
       stroke-width: 1.2;
       stroke-dasharray: 3, 5;
+    }
+
+    .container {
+      position: fixed;
+      left: 7px;
+      padding: 0;
+      margin: 0;
     }
 
 
@@ -198,18 +213,16 @@
   </select>
 </p>
 
-<svg id="nc_map" width="650" height="600" style="border:1px solid black;">
-  <foreignobject class="node" x="5" y="375" width="630" height="300">
-    <div class="chart"></div>
-  </foreignobject>
-</svg>
-
-<div id="scatterplot1">
-
-</div>
-
-<div id="scatterplot2">
-
+<div class="container">
+  <svg id="nc_map" width="650" height="600" style="border:1px solid black;">
+    <foreignobject class="node" x="5" y="375" width="630" height="300">
+      <div class="chart"></div>
+    </foreignobject>
+  </svg>
+  <div id="scatterplot1">
+  </div>
+  <div id="scatterplot2">
+  </div>
 </div>
 
 <script>
