@@ -52,6 +52,8 @@ class NC_Map {
         // Define a color scale for the map.
         let colormap = d3.scaleOrdinal(d3.schemeCategory10);
 
+        this.colormap = colormap
+
         // Draw the county map.
         svg.append("g")
             .attr("class", "county")

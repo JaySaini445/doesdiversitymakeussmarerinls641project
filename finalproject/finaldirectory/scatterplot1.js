@@ -30,11 +30,6 @@ class Scatterplot1 {
             .domain([21, 9])
             .range([this.margin, this.height - this.margin]);
 
-        // There are 4 regions in the continental US, plus "Other" for
-        // Hawaii and Alaska.
-        this.region_color = d3.scaleOrdinal(d3.schemeCategory10);
-
-
         // Add axes.  First the X axis and label.
         this.svg
             .append('g')
@@ -76,8 +71,6 @@ class Scatterplot1 {
             .attr('width', this.width - 2 * this.margin)
             .attr('height', this.height - 2 * this.margin);
 
-        this.region_color = d3.scaleOrdinal(d3.schemeCategory10);
-
         this.loadAndPrepare()
     }
 
@@ -103,6 +96,8 @@ class Scatterplot1 {
             console.log(combined_array)
             console.log(combined_array[0].CountyName)
 
+            console.log(combined_array[2].Zone)
+
             this.render()
         })
     }
@@ -114,6 +109,8 @@ class Scatterplot1 {
     // The _subset parameter will have one of six possible values: 'us', 'northeast',
     // 'south', 'west', 'midwest', or 'other'.
     render() {
+        let colormap = d3.scaleOrdinal(d3.schemeCategory10);
+
         // Filter the data
         let circles = this.svg
             .selectAll('circle')
@@ -125,6 +122,10 @@ class Scatterplot1 {
                     .attr('r', 0)
                     .attr('cx', (d) => this.x(d.Diversity))
                     .attr('cy', (d) => this.y(d.Expenditure))
+                    .attr("fill", d=>{
+                        let zone = d.Zone;
+                        return colormap(zone);
+                    })
 
                     .attr("data-tippy-content", d => {
                         let html = "<table>";
@@ -174,8 +175,8 @@ class Scatterplot1 {
 
         this.svg.selectAll("circle").data(matching_data, d => d.CountyName).join(
             enter => enter,
-            update => update.style("fill", "red").raise(),
-            exit => exit.style("fill", "black")
+            update => update.style("fill", "yellow").raise().attr('r', 12),
+            exit => exit.attr('r', 5).style("fill", null)
         )
     }
 

@@ -113,6 +113,8 @@ class Scatterplot2 {
     // The _subset parameter will have one of six possible values: 'us', 'northeast',
     // 'south', 'west', 'midwest', or 'other'.
     render() {
+        let colormap = d3.scaleOrdinal(d3.schemeCategory10);
+
         // Filter the data
         let circles = this.svg
             .selectAll('circle')
@@ -124,6 +126,10 @@ class Scatterplot2 {
                     .attr('r', 0)
                     .attr('cx', (d) => this.x(d.Students_per_Counselor))
                     .attr('cy', (d) => this.y(d.Grad_Rate))
+                    .attr("fill", d=>{
+                        let zone = d.Zone;
+                        return colormap(zone);
+                    })
 
                     .attr("data-tippy-content", d => {
                         let html = "<table>";
@@ -172,8 +178,8 @@ class Scatterplot2 {
 
         this.svg.selectAll("circle").data(matching_data, d => d.CountyName).join(
             enter => enter,
-            update => update.style("fill", "red").raise(),
-            exit => exit.style("fill", "black")
+            update => update.style("fill", "yellow").raise().attr('r', 12),
+            exit => exit.attr('r', 5).style("fill", null)
         )
     }
 
