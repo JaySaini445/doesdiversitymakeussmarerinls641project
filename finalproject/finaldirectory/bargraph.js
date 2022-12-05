@@ -177,7 +177,6 @@ class BarGraph {
     }
 
     render2(combined_data) {
-        console.log(combined_data)
 
         let x = this.x
         let y = this.y
@@ -203,13 +202,8 @@ class BarGraph {
 
         this.county = county
 
-        console.log(this.county)
-
         this.loadAndPrepare2(county)
 
         d3.select('#county_select').property('value', county)
-
-        console.log(this.county + " is toolbar index")
-        console.log(county + " is the on click index")
     }
 }

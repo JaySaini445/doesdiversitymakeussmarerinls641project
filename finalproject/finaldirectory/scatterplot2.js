@@ -64,7 +64,7 @@ class Scatterplot2 {
             .attr('y', -5)
             .attr('x', 0 + 500 / 2)
             .style('text-anchor', 'middle')
-            .text('Graduation Rate');
+            .text('Graduation Rate (%)');
 
         // Add a clip path.
         this.svg
@@ -99,9 +99,6 @@ class Scatterplot2 {
             }
 
             this.combined_array = combined_array
-
-            console.log(combined_array)
-            console.log(combined_array[0].CountyName)
 
             this.render()
         })
@@ -139,7 +136,6 @@ class Scatterplot2 {
                     .on("click", (event,d) => {
                         // Deal with the click locally for this chart.
                         let countyindex = this.combined_array.map(d => d.CountyName).indexOf(d.CountyName);
-                        console.log(countyindex)
 
                         this.highlightCounty(countyindex);
 

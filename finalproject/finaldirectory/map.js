@@ -7,7 +7,6 @@ class NC_Map {
     }
 
     render(data) {
-        console.log(this)
 
         // CSV data with stats per county. We process the data to make it easier to look up by county name.
         let nc_county_pop_data = data[0].reduce((indexed_data, d) => {
@@ -119,12 +118,8 @@ class NC_Map {
             .call(selection => tippy(selection.nodes(), {allowHTML: true}));
     }
     clickMark(countynum) {
-        console.log(countynum)
-
-        console.log(this.nc_county_map_data)
 
         let countynameabbrev = scatter1.combined_array[countynum].CountyName.replace(' County','');
-        console.log(countynameabbrev)
 
         function selectWhere(data, propertyName) {
             for (let i = 0; i < 100; i++) {
@@ -136,11 +131,8 @@ class NC_Map {
 
         let matchingmapindex = selectWhere(this.nc_county_map_data.features, countynameabbrev);
 
-        console.log(matchingmapindex)
-
         if (matchingmapindex == null) {
             let matching_data = this.nc_county_map_data.features
-            console.log(matching_data)
 
             this.svg.attr("class", "county").selectAll("path").data(matching_data, d => d.properties.NAME).join(
                 enter => enter,
@@ -149,7 +141,6 @@ class NC_Map {
             )
         } else {
             let matching_data = this.nc_county_map_data.features[matchingmapindex]
-            console.log(matching_data)
 
             this.svg.attr("class", "county").selectAll("path").data([matching_data], d => d.properties.NAME).join(
                 enter => enter,
