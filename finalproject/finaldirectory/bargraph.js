@@ -182,8 +182,6 @@ class BarGraph {
     }
 
     filterCounty(county) {
-        // Get matching data.
-        // let matching_data = this.county === data;
 
         this.county = county
 
@@ -193,58 +191,7 @@ class BarGraph {
 
         d3.select('#county_select').property('value', county)
 
-
         console.log(this.county + " is toolbar index")
         console.log(county + " is the on click index")
-
-        // console.log(county_name)
-        // console.log(this.data[0][0].CTYNAME)
     }
-
-        /*
-        // this.region_color =  d3.scaleOrdinal()
-        //  .domain = (['American Indian', 'Asian/Pacific Islander', 'Black', 'Hispanic', 'Multiracial', 'White'])
-        // .range = (["#e06666", "#f6b26b", "#93c47d", "#6fa8dc", "#8e7cc3", "#c27ba0"]);
-        this.region_color = d3.scaleOrdinal(["#eff3ff","#c6dbef","#9ecae1","#6baed6","#3182bd","#08519c"]);
-
-        // Select the chart div which will be the container for the new bar chart
-        let chart = d3.select(".chart");
-
-        chart.selectAll("div")
-            .data(data).join("div")
-            .style("background", d => this.region_color(d.group))
-            .style("color", "black")
-            .style("text-align", "right")
-            .style("font", "10px san-serif")
-            .style("padding", "10px")
-            .style("margin", "1px")
-            .style("width", d => x(d.value) + "px")
-            .text((d, i) => data[i].group)
-            .attr("data-tippy-content", d => {
-                let html = "<table>";
-                html += "<tr><td>" + d.value + "%" + "</td></tr>"
-                return html;
-            })
-            .call(selection => tippy(selection.nodes(), {allowHTML: true}));
-    }
-
-    filterCounty(data) {
-        // Get matching data.
-        // let matching_data = this.county === data;
-
-        this.county = data
-
-        bar.loadAndPrepare(data)
-
-        d3.select('#county_select').property('value', data)
-
-
-        console.log(this.county + " is toolbar index")
-        console.log(data + " is the on click index")
-
-        // console.log(county_name)
-        // console.log(this.data[0][0].CTYNAME)
-    }
-
-         */
 }

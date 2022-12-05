@@ -186,44 +186,4 @@ class Scatterplot1 {
             (1000*d[0].Expenditure).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") +
             ' per student,'
     }
-
-    // Update the correlation score based on the selected subset.
-    /* updateCorrelation(data_subset, _region) {
-      d3.selectAll('#line').remove();
-      const data = data_subset.sort(
-              (a, b) => a.diversity_index - b.diversity_index
-      );
-
-      let linearRegression = ss.linearRegression(
-              data.map((d) => [d.diversity_index, d.public_school_expenditure])
-      );
-      console.log(linearRegression);
-      const linearRegressionLine =
-              ss.linearRegressionLine(linearRegression);
-      const firstX = data[0].diversity_index;
-      const lastX = data.slice(-1)[0].diversity_index;
-      const xCoordinates = [firstX, lastX];
-
-      const regressionPoints = xCoordinates.map((d) => ({
-        x: d,
-        y: linearRegressionLine(d),
-      }));
-      let line = d3.line()
-              .x((d) => {
-                console.log(d);
-                return this.x(d.x);
-              })
-              .y((d) => this.y(d.y));
-      this.svg
-              .append('path')
-              .classed('regressionLine', true)
-              .attr('id', 'line')
-              .datum(regressionPoints)
-              .attr('d', line);
-      document.getElementById(
-              'details'
-      ).innerHTML = `In ${_region}, life expectancy and poverty rate have a corelation score of
-          ${linearRegression.m.toFixed(2)}`;
-    }
-     */
 }
