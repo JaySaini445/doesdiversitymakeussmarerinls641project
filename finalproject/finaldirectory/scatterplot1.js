@@ -129,7 +129,7 @@ class Scatterplot1 {
 
                     .attr("data-tippy-content", d => {
                         let html = "<table>";
-                        html += "<tr><td>" + "Diversity Index: " + d.Diversity + "<br>" + "Expenditure per Student: $" +
+                        html += "<tr><td>" + "Zone: " + d.Zone + "<br>" + "Diversity Index: " + d.Diversity + "<br>" + "Expenditure per Student: $" +
                             (1000*d.Expenditure).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") +
                             "</td>" + "</td>" + d.CountyName + "</td></tr>"
                         return html;

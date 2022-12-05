@@ -133,7 +133,7 @@ class Scatterplot2 {
 
                     .attr("data-tippy-content", d => {
                         let html = "<table>";
-                        html += "<tr><td>" + "High School Graduation Rate: " + d.Grad_Rate + "%<br>" + "Students per School Counselor: " +
+                        html += "<tr><td>" + "Zone: " + d.Zone + "<br>" +  "High School Graduation Rate: " + d.Grad_Rate + "%<br>" + "Students per School Counselor: " +
                             d.Students_per_Counselor + "</td>" + "</td>" + d.CountyName + "</td></tr>"
                         return html;
                     })
