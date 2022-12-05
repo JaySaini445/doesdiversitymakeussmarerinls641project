@@ -138,15 +138,25 @@ class NC_Map {
 
         console.log(matchingmapindex)
 
-        let matching_data = this.nc_county_map_data.features[matchingmapindex]
+        if (matchingmapindex == null) {
+            let matching_data = this.nc_county_map_data.features
+            console.log(matching_data)
 
-        console.log(matching_data)
+            this.svg.attr("class", "county").selectAll("path").data(matching_data, d => d.properties.NAME).join(
+                enter => enter,
+                update => update.style("fill", "yellow").raise(),
+                exit => exit.style("fill", null)
+            )
+        } else {
+            let matching_data = this.nc_county_map_data.features[matchingmapindex]
+            console.log(matching_data)
 
-        this.svg.attr("class", "county").selectAll("path").data([matching_data], d => d.properties.NAME).join(
-            enter => enter,
-            update => update.style("fill", "yellow").raise(),
-            exit => exit.style("fill", null)
-        )
+            this.svg.attr("class", "county").selectAll("path").data([matching_data], d => d.properties.NAME).join(
+                enter => enter,
+                update => update.style("fill", "yellow").raise(),
+                exit => exit.style("fill", null)
+            )
+        }
     }
 }
 

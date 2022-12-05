@@ -87,6 +87,7 @@ class Scatterplot2 {
                 High_School_Graduation_Rate: parseFloat(d.High_School_Graduation_Rate),
                 Students_per_School_Counselor: d.Students_per_School_Counselor.replace(/,/g, ''),
                 Prosperity_Zone: d.Prosperity_Zone,
+                Color: d.Color,
                 Name: d.Name
             }
         }).then(data => {
@@ -94,7 +95,7 @@ class Scatterplot2 {
             let combined_array = new Array(101)
 
             for (let i = 0; i < combined_array.length; i += 1) {
-                combined_array[i] = {CountyName: data[i].Name, Zone: data[i].Prosperity_Zone, Grad_Rate: data[i].High_School_Graduation_Rate, Students_per_Counselor: data[i].Students_per_School_Counselor}
+                combined_array[i] = {CountyName: data[i].Name, Zone: data[i].Prosperity_Zone, Color: data[i].Color, Grad_Rate: data[i].High_School_Graduation_Rate, Students_per_Counselor: data[i].Students_per_School_Counselor}
             }
 
             this.combined_array = combined_array
@@ -126,10 +127,7 @@ class Scatterplot2 {
                     .attr('r', 0)
                     .attr('cx', (d) => this.x(d.Students_per_Counselor))
                     .attr('cy', (d) => this.y(d.Grad_Rate))
-                    .attr("fill", d=>{
-                        let zone = d.Zone;
-                        return colormap(zone);
-                    })
+                    .attr("fill", d => d.Color)
 
                     .attr("data-tippy-content", d => {
                         let html = "<table>";
