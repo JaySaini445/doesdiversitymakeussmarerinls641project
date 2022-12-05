@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="en">
 <head>
     <style>
@@ -11,39 +11,132 @@
         h2 {
             text-align: center;
         }
+        p {
+            margin-top: 5px;
+            margin-bottom: 5px;
+            margin-right: 10px;
+            margin-left: 10px;
+        }
+        h3 {
+            margin-top: 15px;
+            margin-bottom: 5px;
+            margin-right: 10px;
+            margin-left: 10px;
+        }
+        h5 {
+            text-align: center;
+            margin-top: 25px;
+            margin-bottom: 25px;
+            margin-right: 10px;
+            margin-left: 10px;
+        }
     </style>
+
     <meta charset="UTF-8">
     <title>INLS 641 Final Report</title>
 </head>
 <body>
-<h1>Academic Achievement, Funding, and Diversity in North Carolina Public Schools</h1>
+<h1>An Analysis of the Racial Disaprities of Public School Expenditure in North Carolina Counties </h1>
 <h2>Ian Elliot, Neha Patel, Jay Saini, Hanan Ali</h2>
 <h3> Goals </h3>
-<p> Your team's goals, including the target user personas and the types of analytical questions that your project should
-allow these users to answer.</p>
+<p> Our project started with the question: “How do different counties compare to one another with
+    regard to funding, diversity, and academic achievement, but also how do those three variables
+    compare to each other within individual counties?” Our team’s goals were to analyze public school
+    countywide public expenditure to uncover if there were racial disparities in spending.  Our group
+    wanted to be able to show the stark differences in expenditure on academics based on counties but
+    what does that mean without population and expenditure data to understand the reasoning behind
+    certain variables. We started by creating target user personas to create a dashboard that will cater
+    well to our audience. The target users were government officials looking to re-allocate educational
+    funding, a new family wanting to find high performing schools with a diverse school population in a
+    new county, and researchers looking to gain insights on racial disparities.</p>
 
 <h3> Data </h3>
-<p> The input data that your team used </p>
+<p> The datasets we used for our project came from multiple sources since we are comparing academic
+    achievement, funding and diversity as variables across North Carolina counties. Our first dataset
+    came from myFutureNC which contains in-depth county attainment research with data on the overview
+    of each county' demographics and in depth data on the academic attainments and success of their
+    public schools. The next dataset was from the North Carolina Office of State Budget and Management
+    which primarily provided us with the county expenditure throughout the years. The last dataset
+    that was used was the North Carolina County Data for prosperity zone, population density, and
+    growth rate. </p>
+    <p> In our initial planning, we wanted to find one dataset that contained the variables needed in order
+    to answer our main question. However, after trying to find a cohesive and efficient dataset we
+    decided to look for 2-3 datasets that contain valuable information that can be joined together.
+</p>
 
 <h3> Data Transformation </h3>
-<p> The data transformation and statistical analysis required for your project (including compromises made given the
-realities of your dataset) </p>
+<p> The datasets we used required hours of cleaning and restructuring before we were able to integrate
+    them into the project. Initially, we wanted to find one dataset that contained all the variables
+    we needed for analysis, but we had to compromise and select three different datasets that had our
+    desired variables.The process of joining these datasets was quite rigorous because the data
+    required modifications through the process of data cleaning before integrating them into
+    scatter plots and other visualizations. The statistical analysis of our project largely occurred
+    when we were implementing our visualizations. Through extensive research and office hour
+    visits with Dr. Gotz we were able to firstly integrate our data in our visualizations, then
+    integrate our visualizations with each other, so they all update simultaneously. We initially
+    planned on having three scatter plots, but due to time constraints and the lack of space on our
+    web page we had to compromise with two scatter plots instead.  </p>
 
 <h3> Intended Design </h3>
-<p> Your intended visualization designs (including data, visual, and interaction designs), and why you chose those designs
-to support users in answering the required analytical questions </p>
+<p> When beginning the project, we started out with a broad idea that we eventually narrowed down.
+    When addressing education, there are many attributes that come up, from how well a school is
+    performing compared to neighboring schools to how much these schools receive based on their
+    performance. Deciding on what features were essential to answering our problem statement in the most
+    efficient and effective instance was a challenge. Our users would go beyond the target user personas we
+    created, meaning that our dashboard would need to contain inclusive information and visualizations. As a
+    group we decided that we need basic population information for each county, to provide a baseline for the
+    variables to follow such as expenditure and school performance. </p>
+    <p> Our next step was to figure out the best way to present all three variables in a comparable dashboard, where
+    users can compare the variables amongst counties. Our first idea was a North Carolina map outlining the counties,
+    a barchart with racial demographics, and three scatter plots comparing school expenditure, academic achievement,
+    and the diversity index. The map served as a linking tool between the other visualizations on the dashboard. A
+    user would select a labeled county and it would automatically change the bar chart and scatter plots to showcase
+    the data for the specific county. The barchart contained the race population breakdown for each county. The first
+    scatter plot displayed the public school expenditure in comparison to the diversity index. The second scatter plot
+    was academic achievement with respect to the diversity index. The last scatterplot was public expenditure and
+    academic achievement. All scatter plots would highlight the county that was selected to clearly see the difference
+    between the selected county and the remaining counties.
+</p>
 
 <h3> Final Prototype </h3>
 <p> Your final design and implementation that your team ended up with at the end of the semester. One or more examples of
 how your final design allowed users to answer the intended analytical questions</p>
 
 <h3> Discussion </h3>
-<p> A discussion of the design and development process itself: did your team stick to your original plans?
-Were some parts harder/easier/more time-consuming than expected? Do you have any reflections on how your project progressed
-now that you've reached the end of the semester? </p>
+<p> Our team mainly designed and developed our original plan, with some minor changes along the way.
+    We underestimated how long it would take to code certain visualizations and our data from the beginning.
+    There were a lot of data challenges to begin with, which hindered us from moving forward for a while. However,
+    our final product came together well even though we compromised some extra features that would’ve assisted users
+    with their analysis. </p>
+    <p> We divided everything up where each individual worked on something that was of interest or excelled at. Doing a
+    group coding project will always be more than expected as multiple people are working on different parts at the
+    same time, but we managed to communicate with each other along the way with updates and what needs to be completed.
+    We mostly achieved what we thought about this project at the beginning of the semester. The final dashboard is
+    fully functioning and has more features that were not originally planned that are more useful.
+
+</p>
 
 <h3> Ethical and Societal Considerations </h3>
-<p></p>
+<p> Throughout the implementation of our dashboard, we constantly discussed how our decisions about statistical methods,
+    such as the creation of our diversity index, are made. Another major discussion was what data points to omit from
+    the dashboard in order to fit visualizations onto the screen without scrolling. When we demonstrated our dashboard,
+    we noticed some things that should be changed or re-designed to serve the users. For instance, instead of deleting
+    data, we kept the data for all 100 counties, which then resulted in a skewed scatter plot that hindered the users’
+    ability to select and see the visualization. </p>
+    <p> One main ethical question we crossed was “how can we make an unbiased diversity index?” The diversity index used in
+    the scatter plot was created by our group based on the data provided. We felt unsure about making a diversity index
+    based on one dataset that does not accurately represent the entirety of the county’s school demographics. However,
+    for our project, we decided that this was the best approach to calculate the diversity rate for users rather than
+    just displaying racial disparity information. </p>
+    <p> A societal question we had was “how would, for instance, the U.S. Department of Education benefit from our
+    dashboard?” This was a major question since our other user personas are unofficially using our dashboard for
+    information. However, the Department of Education would utilize this information to reallocate funding and
+    resources. We realized that having an expert opinion would assist in the creation of a dashboard meant for
+    official use. At this stage, our dashboard cannot be used for decision-making on a higher governmental level
+    based on the data displayed.
+</p>
 
+<h5> Thank you for giving us the opportunity to explore d3 and other coding languages to solve our own question. And
+thank you for an amazing semester of INLS 641! </h5>
 </body>
 </html>
