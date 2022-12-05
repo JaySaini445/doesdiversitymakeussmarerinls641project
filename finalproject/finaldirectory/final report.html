@@ -43,39 +43,44 @@
     regard to funding, diversity, and academic achievement, but also how do those three variables
     compare to each other within individual counties?” Our team’s goals were to analyze public school
     countywide public expenditure to uncover if there were racial disparities in spending.  Our group
-    wanted to be able to show the stark differences in expenditure on academics based on counties but
-    what does that mean without population and expenditure data to understand the reasoning behind
-    certain variables. We started by creating target user personas to create a dashboard that will cater
-    well to our audience. The target users were government officials looking to re-allocate educational
-    funding, a new family wanting to find high performing schools with a diverse school population in a
+    wanted to be able to show the stark differences in expenditure on academics based on counties, but
+    we were not entirely sure how to make those metrics meaningful without population and expenditure data
+    to understand the reasoning behind certain variables. We started by creating target user personas to create a
+    dashboard that will cater well to our audience. The target users were government officials looking to re-allocate
+    educational funding, a new family wanting to find high performing schools with a diverse school population in a
     new county, and researchers looking to gain insights on racial disparities.</p>
 
 <h3> Data </h3>
 <p> The datasets we used for our project came from multiple sources since we are comparing academic
     achievement, funding and diversity as variables across North Carolina counties. Our first dataset
-    came from myFutureNC which contains in-depth county attainment research with data on the overview
-    of each county' demographics and in depth data on the academic attainments and success of their
+    came from MyFutureNC which contains in-depth county attainment research with data on the overview
+    of each county's demographics and in-depth data on the academic attainments and success of their
     public schools. The next dataset was from the North Carolina Office of State Budget and Management
-    which primarily provided us with the county expenditure throughout the years. The last dataset
-    that was used was the North Carolina County Data for prosperity zone, population density, and
-    growth rate. </p>
+    which primarily provided us with the county expenditure throughout the years (though we ended up only using
+    the most recent; i.e., 2021). The last dataset that was used was the North Carolina County Data for prosperity
+    zone, population density, and growth rate. </p>
     <p> In our initial planning, we wanted to find one dataset that contained the variables needed in order
     to answer our main question. However, after trying to find a cohesive and efficient dataset we
     decided to look for 2-3 datasets that contain valuable information that can be joined together.
-</p>
+    </p>
 
 <h3> Data Transformation </h3>
 <p> The datasets we used required hours of cleaning and restructuring before we were able to integrate
     them into the project. Initially, we wanted to find one dataset that contained all the variables
     we needed for analysis, but we had to compromise and select three different datasets that had our
-    desired variables.The process of joining these datasets was quite rigorous because the data
+    desired variables. The process of joining these datasets was quite rigorous because the data
     required modifications through the process of data cleaning before integrating them into
-    scatter plots and other visualizations. The statistical analysis of our project largely occurred
+    scatter plots and other visualizations. We did eventually
+    end up joining the MyFutureNC and NC Office of State datasets, adding several columns (as well as some of our
+    own metrics, like Diversity Index, which we calculated based on the
+    <a href="https://archives.huduser.gov/healthycommunities/sites/default/files/public/Racial%20Diversity%20using%20Shannon-Wiener%20Index.pdf">
+        Shannon-Wiener model for diversity index</a>).
+    The statistical analysis of our project largely occurred
     when we were implementing our visualizations. Through extensive research and office hour
     visits with Dr. Gotz we were able to firstly integrate our data in our visualizations, then
     integrate our visualizations with each other, so they all update simultaneously. We initially
     planned on having three scatter plots, but due to time constraints and the lack of space on our
-    web page we had to compromise with two scatter plots instead.  </p>
+    web page we had to compromise with two scatter plots instead. </p>
 
 <h3> Intended Design </h3>
 <p> When beginning the project, we started out with a broad idea that we eventually narrowed down.

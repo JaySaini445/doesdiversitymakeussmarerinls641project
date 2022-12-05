@@ -59,7 +59,7 @@ class Scatterplot1 {
             .attr('y', -5)
             .attr('x', 0 + 500 / 2)
             .style('text-anchor', 'middle')
-            .text('Public School Expenditure per Student (in 1000s of $)');
+            .text('2021 Public School Expenditure per Student (in 1000s of $)');
 
         // Add a clip path.
         this.svg
