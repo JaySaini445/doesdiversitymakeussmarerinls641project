@@ -110,10 +110,10 @@ class BarGraph {
             })
             .call(selection => tippy(selection.nodes(), {allowHTML: true}));
 
-        bar = svg.selectAll("myRect")
+        let bars = svg.selectAll("myRect")
             .data(data)
             .enter()
-        bar.append("line")
+        bars.append("line")
             .attr("x1", function(d) { return x(d.nc_avg)})
             .attr("y1", function(d) { return y(d.group); })
             .attr('x2', function(d) { return x(d.nc_avg)})
@@ -174,11 +174,15 @@ class BarGraph {
                 .attr("y", function(d) { return y(d.group); })
                 .attr("width", function(d) { return x(d.value); })
                 .attr("height", y.bandwidth() )
-                .attr("fill", "#69b3a2"),
+                .attr("fill", "#69b3a2")
+                .attr("data-tippy-content", d => {
+                    let html = "<table>";
+                    html += "<tr><td>" + "County: " + d.value + "%" + "<br>" + "NC Avg: " + d.nc_avg + "%" + "</td></tr>"
+                    return html;
+                })
+                .call(selection => tippy(selection.nodes(), {allowHTML: true})),
             exit => exit.style("fill", "black")
         )
-
-        console.log("fuck")
     }
 
     filterCounty(county) {

@@ -132,7 +132,7 @@
 <span id="details2">&nbsp;</span>
 
 <p>Select a county:
-  <select id="county_select" onchange="bar.loadAndPrepare(this.options[this.selectedIndex].value);
+  <select id="county_select" onchange="bar.filterCounty(this.options[this.selectedIndex].value);
   scatter1.highlightCounty(this.options[this.selectedIndex].value); map.clickMark(this.options[this.selectedIndex].value);
   scatter2.highlightCounty(this.options[this.selectedIndex].value)">
     <option value="1">Alamance</option>
