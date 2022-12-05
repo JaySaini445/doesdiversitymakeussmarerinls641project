@@ -22,19 +22,20 @@ class BarGraph {
             }
         }).then(data => {
             if (county == undefined) {
-                county = 1;
+                county = undefined;
             } else {
                 county = +county;
-            }
 
-            let race_data = [
-                {american_indian: data[county].american_indian_pub_students},
-                {asian_pacific_islander: data[county].asian_pacific_islander_pub_students},
-                {black: data[county].black_pub_students},
-                {hispanic: data[county].hispanic_pub_students},
-                {multiracial: data[county].multiracial_pub_students},
-                {white: data[county].white_pub_students}
-            ]
+                this.race_data = [
+                    {american_indian: data[county].american_indian_pub_students},
+                    {asian_pacific_islander: data[county].asian_pacific_islander_pub_students},
+                    {black: data[county].black_pub_students},
+                    {hispanic: data[county].hispanic_pub_students},
+                    {multiracial: data[county].multiracial_pub_students},
+                    {white: data[county].white_pub_students}
+                ]
+            }
+            let race_data = this.race_data
 
             this.render(county, race_data)
         })
@@ -44,14 +45,27 @@ class BarGraph {
 
         this.county = county
 
-        let data = [
-            {group: 'American Indian', value: race_data[0].american_indian, nc_avg: 1},
-            {group: 'Asian/Pacific Isl.', value: race_data[1].asian_pacific_islander, nc_avg: 4},
-            {group: 'Black', value: race_data[2].black, nc_avg: 24},
-            {group: 'Hispanic', value: race_data[3].hispanic, nc_avg: 19},
-            {group: 'Multiracial', value: race_data[4].multiracial, nc_avg: 6},
-            {group: 'White', value: race_data[5].white, nc_avg: 46}
-        ];
+        if (county == undefined) {
+            this.data = [
+                {group: 'American Indian', value: 0, nc_avg: 1},
+                {group: 'Asian/Pacific Isl.', value: 0, nc_avg: 4},
+                {group: 'Black', value: 0, nc_avg: 24},
+                {group: 'Hispanic', value: 0, nc_avg: 19},
+                {group: 'Multiracial', value: 0, nc_avg: 6},
+                {group: 'White', value: 0, nc_avg: 46}
+            ];
+        } else {
+            this.data = [
+                {group: 'American Indian', value: race_data[0].american_indian, nc_avg: 1},
+                {group: 'Asian/Pacific Isl.', value: race_data[1].asian_pacific_islander, nc_avg: 4},
+                {group: 'Black', value: race_data[2].black, nc_avg: 24},
+                {group: 'Hispanic', value: race_data[3].hispanic, nc_avg: 19},
+                {group: 'Multiracial', value: race_data[4].multiracial, nc_avg: 6},
+                {group: 'White', value: race_data[5].white, nc_avg: 46}
+            ];
+        }
+
+        let data = this.data
 
         // set the dimensions and margins of the graph
         let margin = {top: 0, right: 10, bottom: 40, left: 90},
