@@ -26,8 +26,6 @@ class NC_Map {
             return indexed_data;
         }, {maxpop: 0});
 
-        this.nc_county_pop_data = nc_county_pop_data
-
         // TopoJson data, which we convert to GeoJson format for use with D3.
         let nc_county_map_data = topojson.feature(data[1], data[1].objects.cb_2015_north_carolina_county_20m);
 
@@ -38,7 +36,7 @@ class NC_Map {
         // in the middle of the US, which means NC will "tilt" a bit due to its location on the eastern coast).
         let projection = d3.geoAlbers()
             .rotate([79, 0])
-            .fitSize([650,470], nc_county_map_data);
+            .fitSize([650,450], nc_county_map_data);
 
         // Define the path generator using the projection.
         let path = d3.geoPath().projection(projection);

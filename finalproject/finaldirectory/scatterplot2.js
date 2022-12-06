@@ -7,7 +7,7 @@ class Scatterplot2 {
         // margin (or "padding") around the scattter plot.  We use the margin to draw
         // things like axis labels.
         this.height = 500;
-        this.width = 500;
+        this.width = 470;
         this.margin = 40;
 
         // Create the SVG canvas that will be used to render the visualization.
